@@ -21,7 +21,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./module/adbx-workspace  # Adjust this to your Terraform code directory
+        working-directory: ./module/adbx-workspace
 
     steps:
       - name: Checkout repository
@@ -30,7 +30,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.7.5 # Specify your desired Terraform version
+          terraform_version: 1.7.5
+      
+      - name: Terraform Init
+        id: init
+        run: terraform init 
 
       - name: Terraform Plan
         id: plan
