@@ -3,7 +3,6 @@ terraform {
     resource_group_name  = "shared-rg"
     storage_account_name = "cpiazza01shared"
     container_name       = "cpiazza01-tf-state"
-    key                  = "${local.module_name}.tfstate"
   }
   required_providers {
     azurerm = {
