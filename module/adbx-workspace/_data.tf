@@ -1,5 +1,5 @@
 data "azurerm_client_config" "current" {}
 
-data "external" "me" {
-  program = ["az", "account", "show", "--query", "user"]
+data "azuread_user" "current_user" {
+    object_id = data.azurerm_client_config.current.object_id
 }
