@@ -3,8 +3,7 @@ locals {
   parent_folder_path  = dirname(local.current_module_path)
   module_name         = basename(local.parent_folder_path)
 
-  prefix   = "cpiazza-azure-databricks"
-  dbfsname = join("", ["dbfs", "${random_string.naming.result}"])
+  prefix = "cpiazza-azure-databricks"
   tags = {
     Environment = var.env
     Owner       = lookup(data.external.me.result, "name")
