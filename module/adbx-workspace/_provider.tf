@@ -3,6 +3,7 @@ terraform {
     resource_group_name  = "azure-databricks-rg"
     storage_account_name = "cpiazza01shared"
     container_name       = "cpiazza01-tf-state"
+    key                  = "adbx-workspace.tfstate"
   }
   required_providers {
     azurerm = {
