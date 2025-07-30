@@ -6,6 +6,6 @@ locals {
   prefix = "cpiazza-azure-databricks"
   tags = {
     Environment = var.env
-    Owner       = data.azuread_user.current_user.display_name
+    Owner       = data.azuread_service_principal.current_user.display_name
   }
 }
