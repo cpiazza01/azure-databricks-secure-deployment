@@ -27,3 +27,11 @@ variable "location" {
   type    = string
   default = "East US"
 }
+
+variable "transit_private_subnet_endpoints" {
+  default = []
+}
+
+variable "private_subnet_endpoints" {
+  default = []
+}
