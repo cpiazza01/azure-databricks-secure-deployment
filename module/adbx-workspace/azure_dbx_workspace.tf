@@ -1,6 +1,6 @@
 resource "azurerm_databricks_workspace" "web_auth_workspace" {
   name                                  = "${local.prefix}-transit-workspace"
-  resource_group_name                   = var.rg_transit
+  resource_group_name                   = azurerm_resource_group.rg_transit.name
   location                              = var.location
   sku                                   = "premium"
   tags                                  = local.tags
@@ -24,7 +24,7 @@ resource "azurerm_databricks_workspace" "web_auth_workspace" {
 
 resource "azurerm_databricks_workspace" "app_workspace" {
   name                                  = "${local.prefix}-app-workspace"
-  resource_group_name                   = var.rg_dp
+  resource_group_name                   = azurerm_resource_group.rg_dp.name
   location                              = var.location
   sku                                   = "premium"
   tags                                  = local.tags
