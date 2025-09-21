@@ -1,7 +1,7 @@
 resource "azurerm_private_endpoint" "transit_auth" {
   name                = "aadauthpvtendpoint-transit"
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg_transit.name
+  resource_group_name = var.rg_transit
   subnet_id           = azurerm_subnet.transit_plsubnet.id
 
   private_service_connection {
@@ -20,7 +20,7 @@ resource "azurerm_private_endpoint" "transit_auth" {
 resource "azurerm_private_endpoint" "front_pe" {
   name                = "frontprivatendpoint"
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg_transit.name
+  resource_group_name = var.rg_transit
   subnet_id           = azurerm_subnet.transit_plsubnet.id
 
   private_service_connection {
@@ -38,7 +38,7 @@ resource "azurerm_private_endpoint" "front_pe" {
 
 resource "azurerm_private_endpoint" "app_dpcp" {
   name                = "dpcppvtendpoint"
-  resource_group_name = azurerm_resource_group.rg_dp.name
+  resource_group_name = var.rg_dp
   location            = var.location
   subnet_id           = azurerm_subnet.app_plsubnet.id
 

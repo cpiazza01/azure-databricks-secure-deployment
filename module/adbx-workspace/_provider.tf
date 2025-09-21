@@ -1,8 +1,8 @@
 terraform {
   backend "azurerm" {
-    resource_group_name  = "shared-rg"
-    storage_account_name = "cpiazza01shared"
-    container_name       = "cpiazza01-tf-state"
+    resource_group_name  = "azure-databricks-rg-dp"
+    storage_account_name = "cpiazza01dbxtfstate"
+    container_name       = "tfstate"
     key                  = "adbx-workspace.tfstate"
   }
   required_providers {

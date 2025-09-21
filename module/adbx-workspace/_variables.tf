@@ -13,6 +13,16 @@ variable "cidr_dp" {
   default = "11.0.0.0/24"
 }
 
+variable "rg_transit" {
+  type    = string
+  default = "azure-databricks-rg-transit"
+}
+
+variable "rg_dp" {
+  type    = string
+  default = "azure-databricks-rg-dp"
+}
+
 variable "location" {
   type    = string
   default = "East US"

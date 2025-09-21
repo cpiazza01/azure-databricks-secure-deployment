@@ -5,7 +5,7 @@
 resource "azurerm_network_security_group" "transit_sg" {
   name                = "${local.prefix}-transit-nsg"
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg_transit.name
+  resource_group_name = var.rg_transit
   tags                = local.tags
 }
 
@@ -19,7 +19,7 @@ resource "azurerm_network_security_rule" "transit_aad" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureActiveDirectory"
-  resource_group_name         = azurerm_resource_group.rg_transit.name
+  resource_group_name         = var.rg_transit
   network_security_group_name = azurerm_network_security_group.transit_sg.name
 }
 
@@ -33,7 +33,7 @@ resource "azurerm_network_security_rule" "transit_azfrontdoor" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureFrontDoor.Frontend"
-  resource_group_name         = azurerm_resource_group.rg_transit.name
+  resource_group_name         = var.rg_transit
   network_security_group_name = azurerm_network_security_group.transit_sg.name
 }
 
@@ -53,7 +53,7 @@ resource "azurerm_subnet_network_security_group_association" "transit_private" {
 resource "azurerm_network_security_group" "app_sg" {
   name                = "${local.prefix}-app-nsg"
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg_dp.name
+  resource_group_name = var.rg_dp
   tags                = local.tags
 }
 
@@ -67,7 +67,7 @@ resource "azurerm_network_security_rule" "app_aad" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureActiveDirectory"
-  resource_group_name         = azurerm_resource_group.rg_dp.name
+  resource_group_name         = var.rg_dp
   network_security_group_name = azurerm_network_security_group.app_sg.name
 }
 
@@ -81,7 +81,7 @@ resource "azurerm_network_security_rule" "app_azfrontdoor" {
   destination_port_range      = "443"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "AzureFrontDoor.Frontend"
-  resource_group_name         = azurerm_resource_group.rg_dp.name
+  resource_group_name         = var.rg_dp
   network_security_group_name = azurerm_network_security_group.app_sg.name
 }
 
