@@ -13,6 +13,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "transitdnszonevnetlink
 resource "azurerm_private_dns_zone" "dnsdpcp" {
   name                = "privatelink.azuredatabricks.net"
   resource_group_name = var.rg_dp
+  depends_on          = [azurerm_private_dns_zone.dns_auth_front]
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "uiapidnszonevnetlink" {
