@@ -4,8 +4,8 @@ locals {
   module_name         = basename(local.parent_folder_path)
 
   prefix           = "cpiazza-azure-databricks"
-  dbfsname_transit = "${local.prefix}-dbfs-transit"
-  dbfsname_app     = "${local.prefix}-dbfs-app"
+  dbfsname_transit = "cpiazzadbfstransit"
+  dbfsname_app     = "cpiazzadbfsapp"
 
   tags = {
     Environment = var.env

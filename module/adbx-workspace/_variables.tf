@@ -15,12 +15,12 @@ variable "cidr_dp" {
 
 variable "rg_transit" {
   type    = string
-  default = "azure-databricks-rg"
+  default = "azure-databricks-rg-transit"
 }
 
 variable "rg_dp" {
   type    = string
-  default = "azure-databricks-rg"
+  default = "azure-databricks-rg-dp"
 }
 
 variable "location" {
