@@ -45,7 +45,7 @@ jobs:
           fi
 
       - name: Set matrix for affected modules
-        if: ${{ steps.get_changed_dirs.outputs.changed_modules }} != 'None'
+        if: steps.get_changed_dirs.outputs.changed_modules != 'None'
         id: set_matrix
         run: |
           # Convert the list of changed modules into a JSON array for the matrix
@@ -55,7 +55,7 @@ jobs:
 
   terraform:
     needs: find_changed_modules
-    if: ${{ needs.find_changed_modules.outputs.matrix }} != 'None'
+    if: needs.find_changed_modules.outputs.matrix != 'None'
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
