@@ -36,9 +36,16 @@ jobs:
           # Get the list of changed directories
           CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD)
           echo "Changed directories: $CHANGED_DIRS"
-          echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
+          if [[ "$CHANGED_DIRS" == *"module/"* ]]; then
+            echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
+          else
+            echo "No module changes detected."
+            echo "changed_modules=None" >> "$GITHUB_OUTPUT"
+            echo "matrix=None" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set matrix for affected modules
+        if: ${{ steps.get_changed_dirs.outputs.changed_modules }} != 'None'
         id: set_matrix
         run: |
           # Convert the list of changed modules into a JSON array for the matrix
@@ -48,6 +55,7 @@ jobs:
 
   terraform:
     needs: find_changed_modules
+    if: ${{ needs.find_changed_modules.outputs.matrix }} != 'None'
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
