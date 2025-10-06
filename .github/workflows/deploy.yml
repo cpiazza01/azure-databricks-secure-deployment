@@ -14,14 +14,40 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  DATABRICKS_AUTH_TYPE: github-oidc
+  DATABRICKS_HOST: https://adb-1300719207339175.15.azuredatabricks.net
+  DATABRICKS_ACCOUNT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ID }}
+  DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ADMIN_CLIENT_ID }}
 
 jobs:
-  terraform:
+  find_changed_modules:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./module/adbx-workspace
+    outputs:
+      matrix: ${{ steps.set_matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get changed Terraform module directories
+        id: get_changed_dirs
+        run: |
+          # Get the list of changed directories containing .tf files
+          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '.tf$' | xargs -n1 dirname | sort -u | grep -E '^module/')
+          echo "Changed directories: $CHANGED_DIRS"
+          echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
+
+      - name: Set matrix for affected modules
+        id: set_matrix
+        run: |
+          # Convert the list of changed modules into a JSON array for the matrix
+          MODULES_JSON="{\"module\": $(echo '${{ steps.get_changed_dirs.outputs.changed_modules }}' | jq -R -s -c 'split("\n") | map(select(length > 0))')}"
+          echo "Matrix JSON: $MODULES_JSON"
+          echo "matrix=$MODULES_JSON" >> "$GITHUB_OUTPUT"
+
+  terraform:
+    needs: find_changed_modules
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
@@ -35,12 +61,15 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ${{ matrix.module }}
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
+        working-directory: ${{ matrix.module }}
 
       - name: Terraform Apply
         if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve
+        working-directory: ${{ matrix.module }}
