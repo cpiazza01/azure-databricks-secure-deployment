@@ -44,7 +44,6 @@ jobs:
           fi
 
       - name: Set matrix for affected modules
-        if: steps.get_changed_dirs.outputs.changed_modules != 'None'
         id: set_matrix
         run: |  
           if [[ "${{ steps.get_changed_dirs.outputs.changed_modules }}" == "None" ]]; then
