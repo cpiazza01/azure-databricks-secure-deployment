@@ -25,13 +25,14 @@ jobs:
     outputs:
       matrix: ${{ steps.set_matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Get changed Terraform module directories
         id: get_changed_dirs
         run: |
           # Get the list of changed directories containing .tf files
-          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '.tf$' | xargs -n1 dirname | sort -u | grep -E '^module/')
+          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs -n1 dirname | sort -u | grep -E '^module/')
           echo "Changed directories: $CHANGED_DIRS"
           echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
 
