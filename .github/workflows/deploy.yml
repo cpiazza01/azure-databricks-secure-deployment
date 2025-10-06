@@ -34,7 +34,7 @@ jobs:
         id: get_changed_dirs
         run: |
           # Get the list of changed directories
-          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | xargs -n1 dirname | sort -u | grep module/ | tr '\n' '\t' | xargs)
+          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | xargs -n1 dirname | sort -u | grep module/ | tr '\n' ' ' | xargs)
           echo "Changed directories: $CHANGED_DIRS"
           if [[ "$CHANGED_DIRS" == *"module/"* ]]; then
             echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
@@ -50,7 +50,7 @@ jobs:
             echo "matrix=None" >> "$GITHUB_OUTPUT"
           else
             # Convert the list of changed modules into a JSON array for the matrix
-            MODULES_JSON="{\"module\": $(echo '${{ steps.get_changed_dirs.outputs.changed_modules }}' | jq -R -s -c 'split("\t") | map(select(length > 0))')}"
+            MODULES_JSON="{\"module\": $(echo '${{ steps.get_changed_dirs.outputs.changed_modules }}' | jq -R -s -c 'split(" ") | map(select(length > 0))')}"
             echo "Matrix JSON: $MODULES_JSON"
             echo "matrix=$MODULES_JSON" >> "$GITHUB_OUTPUT"
           fi
