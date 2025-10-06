@@ -6,9 +6,4 @@ locals {
   prefix           = "cpiazza-azure-databricks"
   dbfsname_transit = "cpiazzadbfstransit"
   dbfsname_app     = "cpiazzadbfsapp"
-
-  tags = {
-    Environment = var.env
-    Owner       = data.azuread_service_principal.current_user.display_name
-  }
 }
