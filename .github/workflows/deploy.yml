@@ -47,7 +47,7 @@ jobs:
         id: set_matrix
         run: |  
           if [[ "${{ steps.get_changed_dirs.outputs.changed_modules }}" == "None" ]]; then
-            echo 'matrix="{\"module\": [\"None\"]}"' >> "$GITHUB_OUTPUT"
+            echo "matrix=None" >> "$GITHUB_OUTPUT"
           else
             # Convert the list of changed modules into a JSON array for the matrix
             MODULES_JSON="{\"module\": $(echo '${{ steps.get_changed_dirs.outputs.changed_modules }}' | jq -R -s -c 'split("\n") | map(select(length > 0))')}"
@@ -57,7 +57,7 @@ jobs:
 
   terraform:
     needs: find_changed_modules
-    if: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }} != 'None'
+    if: needs.find_changed_modules.outputs.matrix != 'None'
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
