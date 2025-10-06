@@ -55,7 +55,7 @@ jobs:
 
   terraform:
     needs: find_changed_modules
-    if: ${{ fromJson(needs.find_changed_modules.outputs.matrix) != 'None' }}
+    if: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }} != 'None'
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
