@@ -41,7 +41,7 @@ jobs:
           else
             echo "No module changes detected."
             echo "changed_modules=None" >> "$GITHUB_OUTPUT"
-            echo "matrix=None" >> "$GITHUB_OUTPUT"
+            echo "matrix="{\"module\": \"None\"" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Set matrix for affected modules
@@ -55,7 +55,7 @@ jobs:
 
   terraform:
     needs: find_changed_modules
-    if: ${{ needs.find_changed_modules.outputs.matrix != 'None' }}
+    if: ${{ fromJson(needs.find_changed_modules.outputs.matrix) != 'None' }}
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
