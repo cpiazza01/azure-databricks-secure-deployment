@@ -60,6 +60,7 @@ jobs:
     if: needs.find_changed_modules.outputs.matrix != 'None'
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
 
     steps:
