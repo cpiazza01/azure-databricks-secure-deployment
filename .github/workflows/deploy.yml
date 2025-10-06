@@ -34,7 +34,7 @@ jobs:
         id: get_changed_dirs
         run: |
           # Get the list of changed directories
-          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | xargs -n1 dirname | sort -u | grep module/ | tr '\n' '\t')
+          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | xargs -n1 dirname | sort -u | grep module/ | tr ' ' '' | tr '\n' '\t')
           echo "Changed directories: $CHANGED_DIRS"
           if [[ "$CHANGED_DIRS" == *"module/"* ]]; then
             echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
