@@ -27,12 +27,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Fetch history to compare against previous commit
 
       - name: Get changed Terraform module directories
         id: get_changed_dirs
         run: |
-          # Get the list of changed directories containing .tf files
-          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs -n1 dirname | sort -u | grep -E '^module/')
+          # Get the list of changed directories
+          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | xargs -n1 dirname | sort -u | grep -E '^module/')
           echo "Changed directories: $CHANGED_DIRS"
           echo "changed_modules=${CHANGED_DIRS}" >> "$GITHUB_OUTPUT"
 
