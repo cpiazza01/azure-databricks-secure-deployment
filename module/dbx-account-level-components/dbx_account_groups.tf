@@ -19,3 +19,9 @@ resource "databricks_mws_permission_assignment" "catalog_users" {
   principal_id = databricks_group.catalog_users.id
   permissions  = ["USER"]
 }
+
+resource "databricks_mws_permission_assignment" "workspace_admins" {
+  workspace_id = local.workspace_id
+  principal_id = local.workspace_admin_group.id
+  permissions  = ["ADMIN"]
+}
