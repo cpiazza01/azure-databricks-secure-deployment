@@ -12,10 +12,16 @@ data "databricks_metastore" "eastus" {
   region = "eastus"
 }
 
-data "azuread_groups" "databricks_groups" {
+data "azuread_groups" "databricks_group_objects" {
   display_name_prefix = "DATABRICKS_"
+  security_enabled    = true
+}
+
+data "azuread_group" "databricks_groups" {
+  for_each = data.azuread_groups.databricks_group_objects.object_ids
+  object_id = each.value
 }
 
 output "databricks_groups" {
-  value = data.azuread_groups.databricks_groups
+  value = data.azuread_group.databricks_groups
 }
