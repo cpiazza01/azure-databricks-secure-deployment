@@ -7,3 +7,7 @@ data "terraform_remote_state" "azurerm_components" {
     key                  = "adbx-workspace.tfstate"
   }
 }
+
+data "databricks_metastore" "eastus" {
+  region = "eastus"
+}
