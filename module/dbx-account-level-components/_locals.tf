@@ -6,5 +6,5 @@ locals {
   workspace = data.terraform_remote_state.azurerm_components.outputs.azure_databricks_workspace
 
   workspace_id = local.workspace.workspace_id
-  workspace_admin_group = [for group in databricks_group.databricks_group.entra_groups: group if group.display_name == "DATABRICKS_WORKSPACE_ADMIN"][0]
+  workspace_admin_group = [for group in databricks_group.entra_groups: group if group.display_name == "DATABRICKS_WORKSPACE_ADMIN"][0]
 }
