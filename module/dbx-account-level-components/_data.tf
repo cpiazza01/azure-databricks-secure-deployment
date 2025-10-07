@@ -18,8 +18,8 @@ data "azuread_groups" "databricks_group_objects" {
 }
 
 data "azuread_group" "databricks_groups" {
-  for_each = {for key, value in data.azuread_groups.databricks_group_objects.object_ids: value.display_name => value }
-  object_id = each.value
+  for_each = {for key, value in data.azuread_groups.databricks_group_objects.object_ids: value.object_id => value.display_name }
+  object_id = each.key
 }
 
 output "databricks_groups" {
