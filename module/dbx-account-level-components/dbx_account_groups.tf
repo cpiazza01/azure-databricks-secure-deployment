@@ -9,7 +9,13 @@ resource "databricks_group" "catalog_users" {
 }
 
 resource "databricks_group_member" "catalog_user_members" {
-    for_each = databricks_group.entra_groups
+    for_each  = databricks_group.entra_groups
     group_id  = databricks_group.catalog_users.id
     member_id = each.value.id
+}
+
+resource "databricks_mws_permission_assignment" "catalog_users" {
+  workspace_id = local.workspace_id
+  principal_id = databricks_group.catalog_users.id
+  permissions  = ["USER"]
 }
