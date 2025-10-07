@@ -11,5 +11,5 @@ resource "databricks_group" "catalog_users" {
 resource "databricks_group_member" "catalog_user_members" {
     for_each = databricks_group.entra_groups
     group_id  = databricks_group.catalog_users.id
-    member_id = each.id
+    member_id = each.value.id
 }
