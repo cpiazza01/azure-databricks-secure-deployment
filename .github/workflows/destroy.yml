@@ -2,6 +2,14 @@ name: Terraform Destroy
 
 on:
   workflow_dispatch:
+    inputs:
+      module:
+        required: true 
+        description: "Terraform Module Name"
+        type: choice
+        options:
+          - adbx-workspace
+          - dbx-account-level-components
 
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -15,7 +23,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./module/adbx-workspace
+        working-directory: ./module/${{ inputs.module }}
 
     steps:
       - name: Checkout repository
