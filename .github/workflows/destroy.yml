@@ -8,7 +8,7 @@ on:
         description: "Terraform Module Name"
         type: choice
         options:
-          - adbx-workspace
+          - azurerm-components
           - dbx-account-level-components
 
 permissions:
