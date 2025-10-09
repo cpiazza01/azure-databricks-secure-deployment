@@ -51,11 +51,6 @@ jobs:
         with:
           terraform_version: 1.7.5
       
-      - name: Load environment variables
-        run: |
-          cat ${{ github.environment }}.env
-          echo ${{ env.TF_VAR_ENV }}
-      
       - name: Terraform Init
         id: init
         run: terraform init -backend-config=env-config/${{ env.TF_VAR_ENV }}-backend.conf
