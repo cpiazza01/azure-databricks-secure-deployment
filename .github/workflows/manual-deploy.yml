@@ -53,7 +53,7 @@ jobs:
       
       - name: Load environment variables
         run: |
-          cat ${{ job.environment }}.env
+          cat ${{ github.environment }}.env
           echo ${{ env.TF_VAR_ENV }}
       
       - name: Terraform Init
