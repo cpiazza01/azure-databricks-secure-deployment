@@ -71,9 +71,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
-      - name: echo
-        run: echo ${{ secrets.DATABRICKS_ACCOUNT_ID }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
