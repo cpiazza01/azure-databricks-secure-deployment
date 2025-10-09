@@ -72,15 +72,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Load environment variables
-        run: |
-          cat ${{ job.environment }}.env
-          echo ${{ env.TF_VAR_ENV }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.5
+        
+      - name: Load environment variables
+        run: |
+          cat ${{ job.environment }}.env
+          echo ${{ env.TF_VAR_ENV }}
       
       - name: Terraform Init
         id: init
