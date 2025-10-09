@@ -1,0 +1,60 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        required: true 
+        description: "Terraform Module Name"
+        type: choice
+        options:
+          - azurerm-cdp-dbx-workspace
+          - dbx-account-level-components
+      command:
+        required: true 
+        description: "Terraform Command"
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./module/${{ inputs.module }}
+    environment:
+      name: ${{ github.ref_name == 'main' && 'prod' || github.ref_name  == 'test' && 'test' || 'dev' }}
+    
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_HOST: https://accounts.azuredatabricks.net
+      DATABRICKS_ACCOUNT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ID }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ADMIN_CLIENT_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+      
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=env-config/${{ env.TF_VAR_ENV }}-backend.conf
+
+      - name: Terraform ${{ inputs.command }}
+        run: terraform ${{ inputs.command }} -auto-approve

@@ -1,10 +1,5 @@
 terraform {
-  backend "azurerm" {
-    resource_group_name  = "azure-databricks-rg"
-    storage_account_name = "cpiazza01dbxtfstate"
-    container_name       = "tfstate"
-    key                  = "adbx-workspace.tfstate"
-  }
+  backend "azurerm" {}
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"

@@ -3,7 +3,7 @@ data "terraform_remote_state" "azurerm_components" {
   config = {
     resource_group_name  = "azure-databricks-rg"
     storage_account_name = "cpiazza01dbxtfstate"
-    container_name       = "tfstate"               
+    container_name       = "tfstate"
     key                  = "adbx-workspace.tfstate"
   }
 }
@@ -18,6 +18,6 @@ data "azuread_groups" "databricks_group_objects" {
 }
 
 data "azuread_group" "databricks_groups" {
-  for_each = {for key, value in data.azuread_groups.databricks_group_objects.display_names: value => value }
+  for_each     = { for key, value in data.azuread_groups.databricks_group_objects.display_names : value => value }
   display_name = each.value
 }

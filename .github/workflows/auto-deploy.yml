@@ -1,27 +1,16 @@
 name: Terraform Plan/Apply
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 permissions:
   id-token: write
   contents: read
-
-env:
-  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  DATABRICKS_AUTH_TYPE: github-oidc
-  DATABRICKS_HOST: https://accounts.azuredatabricks.net
-  DATABRICKS_ACCOUNT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ID }}
-  DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ADMIN_CLIENT_ID }}
 
 jobs:
   find_changed_modules:
@@ -66,10 +55,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.find_changed_modules.outputs.matrix) }}
+    environment:
+      name: ${{ (github.ref_name == 'main' || github.head_ref == 'main') && 'prod'  || (github.ref_name == 'test' || github.head_ref == 'test') && 'test' || 'dev' }}
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_HOST: https://accounts.azuredatabricks.net
+      DATABRICKS_ACCOUNT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ID }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ADMIN_CLIENT_ID }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      
+      - name: Load environment variables
+        run: |
+          cat ${{ job.environment }}.env
+          echo ${{ env.TF_VAR_ENV }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -78,7 +83,7 @@ jobs:
       
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init -backend-config=env-config/${{ env.TF_VAR_ENV }}-backend.conf
         working-directory: ${{ matrix.module }}
 
       - name: Terraform Plan
