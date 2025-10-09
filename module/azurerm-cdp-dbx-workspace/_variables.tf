@@ -1,5 +1,5 @@
 variable "env" {
-  type    = string
+  type = string
 }
 
 variable "azure_dbx_vnet_cidr" {
@@ -8,7 +8,7 @@ variable "azure_dbx_vnet_cidr" {
 }
 
 variable "azure_dbx_resource_group" {
-  type    = string
+  type = string
 }
 
 variable "location" {
