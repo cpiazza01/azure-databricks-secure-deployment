@@ -3,7 +3,7 @@ resource "azurerm_databricks_workspace" "azure_databricks_workspace" {
   resource_group_name         = var.azure_dbx_resource_group
   location                    = var.location
   sku                         = "premium"
-  managed_resource_group_name = "${local.prefix}-workspace-managed-rg"
+  managed_resource_group_name = "${local.prefix}-workspace-managed-rg-${var.env}"
   tags                        = local.tags
 
   custom_parameters {

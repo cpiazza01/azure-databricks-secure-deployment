@@ -1,6 +1,5 @@
 variable "env" {
   type    = string
-  default = "prod"
 }
 
 variable "azure_dbx_vnet_cidr" {
