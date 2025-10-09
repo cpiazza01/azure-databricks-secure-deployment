@@ -5,7 +5,7 @@ resource "databricks_group" "entra_groups" {
 }
 
 resource "databricks_group" "catalog_users" {
-  display_name = "DATABRICKS_CATALOG_USERS"
+  display_name = "DATABRICKS_CATALOG_USERS_${upper(var.env)}"
 }
 
 resource "databricks_group_member" "catalog_user_members" {
