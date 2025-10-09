@@ -81,15 +81,15 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init -backend-config=env-config/${{ vars.ENV }}-backend.conf
-        working-directory: ${{ matrix.module }}
+        working-directory: module/${{ matrix.module }}
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
-        working-directory: ${{ matrix.module }}
+        working-directory: module/${{ matrix.module }}
 
       - name: Terraform Apply
         if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve
-        working-directory: ${{ matrix.module }}
+        working-directory: module/${{ matrix.module }}
