@@ -7,7 +7,7 @@ variable "azure_dbx_vnet_cidr" {
   default = "10.0.0.0/24"
 }
 
-variable "azure_dbx_resource_group" {
+variable "resource_group_name" {
   type = string
 }
 

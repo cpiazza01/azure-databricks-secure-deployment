@@ -5,7 +5,7 @@
 resource "azurerm_network_security_group" "azuredbx_network_security_group" {
   name                = "${local.prefix}-nsg"
   location            = var.location
-  resource_group_name = var.azure_dbx_resource_group
+  resource_group_name = var.resource_group_name
   tags                = local.tags
 }
 

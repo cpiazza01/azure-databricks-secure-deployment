@@ -1,6 +1,6 @@
 resource "azurerm_databricks_workspace" "azure_databricks_workspace" {
   name                        = "${local.prefix}-workspace"
-  resource_group_name         = var.azure_dbx_resource_group
+  resource_group_name         = var.resource_group_name
   location                    = var.location
   sku                         = "premium"
   managed_resource_group_name = "${local.prefix}-workspace-managed-rg-${var.env}"

@@ -1,6 +1,6 @@
 resource "azurerm_subnet" "azure_dbx_public_subnet" {
   name                 = "${local.prefix}-public-subnet"
-  resource_group_name  = var.azure_dbx_resource_group
+  resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.azure_dbx_vnet.name
   address_prefixes     = [cidrsubnet(var.azure_dbx_vnet_cidr, 3, 0)]
 
@@ -19,7 +19,7 @@ resource "azurerm_subnet" "azure_dbx_public_subnet" {
 
 resource "azurerm_subnet" "azure_dbx_private_subnet" {
   name                 = "${local.prefix}-private-subnet"
-  resource_group_name  = var.azure_dbx_resource_group
+  resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.azure_dbx_vnet.name
   address_prefixes     = [cidrsubnet(var.azure_dbx_vnet_cidr, 3, 1)]
 

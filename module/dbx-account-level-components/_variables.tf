@@ -3,7 +3,7 @@ variable "env" {
   default = "prod"
 }
 
-variable "azure_dbx_resource_group" {
+variable "resource_group_name" {
   type = string
 }
 
