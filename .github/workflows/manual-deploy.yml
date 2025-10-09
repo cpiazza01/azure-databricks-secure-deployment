@@ -56,4 +56,4 @@ jobs:
         run: terraform init -backend-config=env-config/${{ env.TF_VAR_ENV }}-backend.conf
 
       - name: Terraform ${{ inputs.command }}
-        run: terraform ${{ inputs.command }} -auto-approve -var-file="${{ vars.ENV }}.tfvars"
+        run: terraform ${{ inputs.command }} -auto-approve -var-file="env-config/${{ vars.ENV }}.tfvars"
