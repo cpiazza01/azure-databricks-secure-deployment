@@ -1,9 +1,9 @@
 name: Auto Terraform Deploy
 
 on:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - dev
   # pull_request:
   #   branches:
   #     - main
@@ -80,12 +80,12 @@ jobs:
         
       - name: Load environment variables
         run: |
-          cat ${{ job.environment }}.env
-          echo ${{ env.TF_VAR_ENV }}
+          cat ${{ vars.ENV }}.env
+          echo ${{ vars.ENV }}
       
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config=env-config/${{ env.TF_VAR_ENV }}-backend.conf
+        run: terraform init -backend-config=env-config/${{ vars.ENV }}-backend.conf
         working-directory: ${{ matrix.module }}
 
       - name: Terraform Plan

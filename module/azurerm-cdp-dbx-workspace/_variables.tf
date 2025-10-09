@@ -10,7 +10,6 @@ variable "azure_dbx_vnet_cidr" {
 
 variable "azure_dbx_resource_group" {
   type    = string
-  default = "azure-databricks-rg"
 }
 
 variable "location" {
