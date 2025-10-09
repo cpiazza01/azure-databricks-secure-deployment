@@ -1,10 +1,10 @@
 data "terraform_remote_state" "azurerm_components" {
   backend = "azurerm"
   config = {
-    resource_group_name  = "azure-databricks-rg"
-    storage_account_name = "cpiazza01dbxtfstate"
-    container_name       = "tfstate"
-    key                  = "adbx-workspace.tfstate"
+    resource_group_name  = var.resource_group_name
+    storage_account_name = "cdpdatabricksdev"
+    container_name       = "cdp-tfstate"
+    key                  = "azurerm-cdp-dbx-workspace.tfstate"
   }
 }
 
