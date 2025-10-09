@@ -1,4 +1,4 @@
-name: Terraform Plan/Apply
+name: Auto Terraform Deploy
 
 on:
   # push:
@@ -7,6 +7,7 @@ on:
   # pull_request:
   #   branches:
   #     - main
+  workflow_dispatch:
 
 permissions:
   id-token: write
