@@ -12,8 +12,8 @@ data "databricks_metastore" "eastus" {
   region = "eastus"
 }
 
-data "azuread_groups" "databricks_group_objects" {
-  display_name_prefix = "DATABRICKS_"
+data "azuread_groups" "cdp_group_objects" {
+  display_name_prefix = "CDP_"
   security_enabled    = true
 }
 
