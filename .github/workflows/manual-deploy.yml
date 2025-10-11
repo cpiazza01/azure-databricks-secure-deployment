@@ -9,7 +9,7 @@ on:
         type: choice
         options:
           - azurerm-cdp-dbx-workspace
-          - dbx-account-level-components
+          - cdp-account-level-components
       command:
         required: true 
         description: "Terraform Command"
