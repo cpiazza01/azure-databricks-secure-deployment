@@ -8,7 +8,7 @@ resource "databricks_group" "catalog_users" {
   display_name = "CDP_CATALOG_USERS_${upper(var.env)}"
 }
 
-resource "databricks_group_member" "catalog_user_members" {
+resource "databricks_group_member" "catalog_users_groups" {
   for_each  = databricks_group.entra_groups
   group_id  = databricks_group.catalog_users.id
   member_id = each.value.id
