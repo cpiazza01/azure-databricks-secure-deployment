@@ -1,11 +1,10 @@
 resource "databricks_service_principal" "workspace_admin_sp" {
-  for_each     = {for key, group in databricks_group.entra_groups: key => group if strcontains(group.display_name, "WORKSPACE_ADMIN")}
-  display_name = "SP_${each.value.display_name}"
+  display_name = "SP_CDP_WORKSPACE_ADMIN_${upper(var.env)}"
 }
 
 resource "databricks_group_member" "workspace_admin_sp_in_admin_group" {
   group_id  = local.workspace_admin_group.id
-  member_id = databricks_service_principal.workspace_admin_sp[0].id
+  member_id = databricks_service_principal.workspace_admin_sp.id
 }
 
 resource "databricks_service_principal" "rw" {
