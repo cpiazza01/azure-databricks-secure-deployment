@@ -12,7 +12,10 @@ terraform {
   }
 }
 
-provider "databricks" {}
+provider "databricks" {
+  host       = "https://accounts.azuredatabricks.net"
+  account_id = "946e76c0-2fb6-426d-aa32-e75c629076f0"
+}
 
 provider "azurerm" {
   features {}
