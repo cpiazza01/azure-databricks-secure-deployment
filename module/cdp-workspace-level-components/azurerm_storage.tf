@@ -18,7 +18,7 @@ resource "azurerm_role_assignment" "storage_account_access_catalog_root" {
   for_each             = toset(var.storage_account_acceses_to_grant)
   scope                = azurerm_storage_account.cdp_catalog_root_storage_account.id
   role_definition_name = each.value
-  principal_id         = azurerm_databricks_access_connector.cdp_access_connector.identity[0].principal_id
+  principal_id         = local.cdp_access_connector.identity[0].principal_id
 }
 
 # Stage Storage Configuration
@@ -41,5 +41,5 @@ resource "azurerm_role_assignment" "storage_account_access_stage" {
   for_each             = toset(var.storage_account_acceses_to_grant)
   scope                = azurerm_storage_account.cdp_stage_storage_account.id
   role_definition_name = each.value
-  principal_id         = azurerm_databricks_access_connector.cdp_access_connector.identity[0].principal_id
+  principal_id         = local.cdp_access_connector.identity[0].principal_id
 }

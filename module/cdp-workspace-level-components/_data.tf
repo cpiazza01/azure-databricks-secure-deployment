@@ -8,6 +8,16 @@ data "terraform_remote_state" "azurerm_components" {
   }
 }
 
+data "terraform_remote_state" "cdp_account_components" {
+  backend = "azurerm"
+  config = {
+    resource_group_name  = "shared-${var.env}"
+    storage_account_name = "cpiazzatfstatedev"
+    container_name       = "cdp-tfstate"
+    key                  = "cdp-account-level-components.tfstate"
+  }
+}
+
 data "azuread_groups" "cdp_group_objects" {
   display_name_prefix = "CDP_"
   security_enabled    = true
