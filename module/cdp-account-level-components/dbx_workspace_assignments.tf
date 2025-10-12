@@ -7,8 +7,8 @@ resource "databricks_mws_permission_assignment" "catalog_users" {
 
 resource "databricks_mws_permission_assignment" "account_admin" {
   workspace_id = local.workspace_id
-  principal_id = data.databricks_current_user.me.id
-  permissions  = ["USER"]
+  principal_id = data.databricks_service_principal.account_admin_sp.id
+  permissions  = ["ADMIN"]
   depends_on   = [databricks_metastore_assignment.this]
 }
 

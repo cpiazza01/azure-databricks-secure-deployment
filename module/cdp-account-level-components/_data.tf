@@ -29,3 +29,8 @@ data "azurerm_storage_account" "cdpdatabrick" {
   name                = var.storage_account_name
   resource_group_name = var.resource_group_name
 }
+
+data "databricks_service_principal" "account_admin_sp" {
+  display_name = "DATABRICKS_ACCOUNT_ADMIN_SP"
+}
+
