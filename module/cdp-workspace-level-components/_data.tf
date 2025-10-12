@@ -8,10 +8,6 @@ data "terraform_remote_state" "azurerm_components" {
   }
 }
 
-data "databricks_metastore" "eastus" {
-  region = "eastus"
-}
-
 data "azuread_groups" "cdp_group_objects" {
   display_name_prefix = "CDP_"
   security_enabled    = true
