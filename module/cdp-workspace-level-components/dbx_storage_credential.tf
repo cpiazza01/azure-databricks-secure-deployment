@@ -1,5 +1,5 @@
 resource "azurerm_databricks_access_connector" "cdp_access_connector" {
-  name                = "cdp_access_connector-resource"
+  name                = "cdp_access_connector"
   resource_group_name = var.resource_group_name
   location            = var.location
 
