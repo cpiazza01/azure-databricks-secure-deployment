@@ -5,12 +5,12 @@ resource "databricks_mws_permission_assignment" "catalog_users" {
   depends_on   = [databricks_metastore_assignment.this]
 }
 
-# resource "databricks_mws_permission_assignment" "account_admin" {
-#   workspace_id = local.workspace_id
-#   principal_id = data.databricks_current_user.me.id
-#   permissions  = ["USER"]
-#   depends_on   = [databricks_metastore_assignment.this]
-# }
+resource "databricks_mws_permission_assignment" "account_admin" {
+  workspace_id = local.workspace_id
+  principal_id = data.databricks_current_user.me.id
+  permissions  = ["USER"]
+  depends_on   = [databricks_metastore_assignment.this]
+}
 
 resource "databricks_mws_permission_assignment" "workspace_admins" {
   workspace_id = local.workspace_id
