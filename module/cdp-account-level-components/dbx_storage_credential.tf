@@ -20,6 +20,6 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
 resource "databricks_workspace_binding" "cdp_storage_credential_binding" {
   workspace_id    = local.workspace_id
   securable_name  = databricks_storage_credential.cdp_storage_credential.name
-  securable_type  = "storage-credential"
+  securable_type  = "storage_credential"
   binding_type    = "BINDING_TYPE_READ_WRITE"
 }
