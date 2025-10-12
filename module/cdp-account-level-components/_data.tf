@@ -1,4 +1,4 @@
-data "databricks_current_user" "me" {}
+# data "databricks_current_user" "me" {}
 
 data "terraform_remote_state" "azurerm_components" {
   backend = "azurerm"
