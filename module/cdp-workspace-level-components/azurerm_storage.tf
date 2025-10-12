@@ -15,8 +15,9 @@ resource "azurerm_storage_container" "cdp_catalog_storage_root" {
 }
 
 resource "azurerm_role_assignment" "storage_account_access_catalog_root" {
+  for_each             = toset(var.storage_account_acceses_to_grant)
   scope                = azurerm_storage_account.cdp_catalog_root_storage_account.id
-  role_definition_name = "Storage Blob Data Contributor"
+  role_definition_name = each.value
   principal_id         = azurerm_databricks_access_connector.cdp_access_connector.identity[0].principal_id
 }
 
@@ -37,7 +38,8 @@ resource "azurerm_storage_container" "cdp_catalog_storage_stage" {
 }
 
 resource "azurerm_role_assignment" "storage_account_access_stage" {
+  for_each             = toset(var.storage_account_acceses_to_grant)
   scope                = azurerm_storage_account.cdp_stage_storage_account.id
-  role_definition_name = "Storage Blob Data Contributor"
+  role_definition_name = each.value
   principal_id         = azurerm_databricks_access_connector.cdp_access_connector.identity[0].principal_id
 }
