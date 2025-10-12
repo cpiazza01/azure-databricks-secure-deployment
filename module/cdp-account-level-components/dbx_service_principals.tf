@@ -8,12 +8,12 @@ resource "databricks_group_member" "workspace_admin_sp_in_admin_group" {
 }
 
 resource "databricks_service_principal" "rw" {
-  for_each     = {for key, group in databricks_group.entra_groups: group.display_name => group if !strcontains(group.display_name, "WORKSPACE_ADMIN")}
+  for_each     = { for key, group in databricks_group.entra_groups : group.display_name => group if !strcontains(group.display_name, "WORKSPACE_ADMIN") }
   display_name = "SP_RW_${each.value.display_name}"
 }
 
 resource "databricks_service_principal" "ro" {
-  for_each     = {for key, group in databricks_group.entra_groups: group.display_name => group if !strcontains(group.display_name, "WORKSPACE_ADMIN")}
+  for_each     = { for key, group in databricks_group.entra_groups : group.display_name => group if !strcontains(group.display_name, "WORKSPACE_ADMIN") }
   display_name = "SP_RO_${each.value.display_name}"
 }
 
