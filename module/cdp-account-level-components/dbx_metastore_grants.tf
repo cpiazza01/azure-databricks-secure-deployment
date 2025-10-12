@@ -9,7 +9,6 @@ resource "databricks_grant" "workspace_admin_metastore_grants" {
     "CREATE_SHARE",
     "CREATE_CONNECTION",
     "CREATE_SERVICE_CREDENTIAL",
-    "CREATE_STORAGE_CREDENTIAL",
     "CREATE_EXTERNAL_LOCATION",
     "CREATE_CATALOG"
   ]
