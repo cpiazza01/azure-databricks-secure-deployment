@@ -14,4 +14,5 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.cdp_access_connector.id
   }
+  depends_on = [azurerm_role_assignment.storage_account_access_stage]
 }
