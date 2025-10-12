@@ -1,0 +1,17 @@
+variable "env" {
+  type    = string
+  default = "prod"
+}
+
+variable "resource_group_name" {
+  type = string
+}
+
+variable "location" {
+  type    = string
+  default = "East US"
+}
+
+variable "workspace_admin_client_id" {
+  type = string
+}
