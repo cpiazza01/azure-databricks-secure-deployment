@@ -14,7 +14,7 @@ terraform {
 
 provider "databricks" {
   host      = local.workspace_url
-  # client_id = var.workspace_admin_client_id
+  client_id = var.workspace_admin_client_id
 }
 
 provider "azurerm" {
