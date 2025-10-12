@@ -14,10 +14,10 @@ terraform {
 
 provider "databricks" {}
 
-provider "databricks" {
-  alias = "dbx_workspace"
-  host  = local.workspace_url
-}
+# provider "databricks" {
+#   alias = "dbx_workspace"
+#   host  = local.workspace_url
+# }
 
 provider "azurerm" {
   features {}
