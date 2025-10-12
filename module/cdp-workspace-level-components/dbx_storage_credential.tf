@@ -16,10 +16,3 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
     access_connector_id = azurerm_databricks_access_connector.cdp_access_connector.id
   }
 }
-
-resource "databricks_sql_endpoint" "this" {
-  name                      = "Test"
-  cluster_size              = "2X-Small"
-  max_num_clusters          = 1
-  enable_serverless_compute = true
-}
