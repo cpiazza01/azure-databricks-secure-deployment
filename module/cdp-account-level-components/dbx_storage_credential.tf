@@ -9,8 +9,9 @@ resource "azurerm_databricks_access_connector" "cdp_access_connector" {
 }
 
 resource "databricks_storage_credential" "cdp_storage_credential" {
-  name         = "cdp_storage_credential"
-  metastore_id = data.databricks_metastore.eastus.id
+  provider       = databricks.dbx_workspace
+  name           = "cdp_storage_credential"
+  isolation_mode = "ISOLATION_MODE_ISOLATED"
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.cdp_access_connector.id
   }
