@@ -8,3 +8,7 @@ resource "azurerm_role_assignment" "container_access" {
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_databricks_access_connector.cdp_access_connector.identity[0].principal_id
 }
+
+output "azurerm_storage_container" {
+  value = azurerm_storage_container.cdp_catalog
+}
