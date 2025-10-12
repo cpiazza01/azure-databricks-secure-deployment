@@ -19,7 +19,7 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
   }
 }
 
-resource "databricks_grant" "workspace_admin_metastore_grants" {
+resource "databricks_grant" "workspace_admin_storage_credential_grant" {
   provider           = databricks.dbx_workspace
   depends_on         = [databricks_mws_permission_assignment.account_admin]
   storage_credential = databricks_storage_credential.cdp_storage_credential.id
