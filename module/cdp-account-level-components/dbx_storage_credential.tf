@@ -14,3 +14,7 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
     access_connector_id = azurerm_databricks_access_connector.cdp_access_connector.id
   }
 }
+
+output "azurerm_databricks_access_connector" {
+  value = azurerm_databricks_access_connector.cdp_access_connector
+}
