@@ -8,8 +8,9 @@ on:
         description: "Terraform Module Name"
         type: choice
         options:
-          - azurerm-cdp-dbx-workspace
+          - cdp-workspace-level-components
           - cdp-account-level-components
+          - azurerm-cdp-dbx-workspace
       command:
         required: true 
         description: "Terraform Command"

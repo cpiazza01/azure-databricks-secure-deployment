@@ -13,5 +13,6 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
   isolation_mode = "ISOLATION_MODE_ISOLATED"
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.cdp_access_connector.id
+    managed_identity_id = azurerm_databricks_access_connector.cdp_access_connector.identity[0].principal_id
   }
 }
