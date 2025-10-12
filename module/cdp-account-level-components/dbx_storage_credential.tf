@@ -18,3 +18,11 @@ resource "databricks_storage_credential" "cdp_storage_credential" {
     access_connector_id = azurerm_databricks_access_connector.cdp_access_connector.id
   }
 }
+
+resource "databricks_grant" "workspace_admin_metastore_grants" {
+  provider           = databricks.dbx_workspace
+  depends_on         = [databricks_mws_permission_assignment.account_admin]
+  storage_credential = databricks_storage_credential.cdp_storage_credential.id
+  principal          = local.workspace_admin_group.display_name
+  privileges         = ["CREATE_EXTERNAL_LOCATION"]
+}
