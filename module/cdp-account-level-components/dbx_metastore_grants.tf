@@ -1,4 +1,5 @@
 resource "databricks_grant" "workspace_admin_metastore_grants" {
+  provider   = databricks.dbx_workspace
   metastore  = data.databricks_metastore.eastus.id
   principal  = local.workspace_admin_group.display_name
   privileges = [
