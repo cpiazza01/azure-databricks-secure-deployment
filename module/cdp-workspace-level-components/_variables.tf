@@ -25,3 +25,21 @@ variable "storage_account_acceses_to_grant" {
     "EventGrid EventSubscription Contributor"
   ]
 }
+
+variable "cdp_bronze_and_silver_schemas" {
+  type = list(string)
+  default = [
+    "cms"
+  ]
+}
+
+variable "cdp_gold_schemas" {
+  type = list(string)
+  default = [
+    "claim",
+    "provider",
+    "member",
+    "benefits",
+    "sales"
+  ]
+}

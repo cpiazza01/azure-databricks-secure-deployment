@@ -1,3 +1,4 @@
+# Root
 resource "databricks_external_location" "cdp_catalog_root_ext_loc" {
   name            = "cdp_catalog_root_ext_loc_${lower(var.env)}"
   url             = format("abfss://%s@%s.dfs.core.windows.net", azurerm_storage_container.cdp_catalog_storage_root.name, azurerm_storage_account.cdp_catalog_root_storage_account.name)
@@ -5,9 +6,26 @@ resource "databricks_external_location" "cdp_catalog_root_ext_loc" {
   depends_on      = [azurerm_role_assignment.storage_account_access_catalog_root]
 }
 
-resource "databricks_external_location" "cdp_catalog_stage_ext_loc" {
-  name            = "cdp_catalog_stage_ext_loc_${lower(var.env)}"
-  url             = format("abfss://%s@%s.dfs.core.windows.net", azurerm_storage_container.cdp_catalog_storage_stage.name, azurerm_storage_account.cdp_stage_storage_account.name)
+# Bronze
+resource "databricks_external_location" "cdp_catalog_bronze_ext_loc" {
+  name            = "cdp_catalog_bronze_ext_loc_${lower(var.env)}"
+  url             = format("abfss://%s@%s.dfs.core.windows.net", azurerm_storage_container.cdp_catalog_storage_bronze.name, azurerm_storage_account.cdp_bronze_storage_account.name)
   credential_name = local.cdp_storage_credential.id
-  depends_on      = [azurerm_role_assignment.storage_account_access_stage]
+  depends_on      = [azurerm_role_assignment.storage_account_access_bronze]
+}
+
+# Silver
+resource "databricks_external_location" "cdp_catalog_silver_ext_loc" {
+  name            = "cdp_catalog_silver_ext_loc_${lower(var.env)}"
+  url             = format("abfss://%s@%s.dfs.core.windows.net", azurerm_storage_container.cdp_catalog_storage_silver.name, azurerm_storage_account.cdp_silver_storage_account.name)
+  credential_name = local.cdp_storage_credential.id
+  depends_on      = [azurerm_role_assignment.storage_account_access_silver]
+}
+
+# Gold
+resource "databricks_external_location" "cdp_catalog_gold_ext_loc" {
+  name            = "cdp_catalog_gold_ext_loc_${lower(var.env)}"
+  url             = format("abfss://%s@%s.dfs.core.windows.net", azurerm_storage_container.cdp_catalog_storage_gold.name, azurerm_storage_account.cdp_gold_storage_account.name)
+  credential_name = local.cdp_storage_credential.id
+  depends_on      = [azurerm_role_assignment.storage_account_access_gold]
 }
