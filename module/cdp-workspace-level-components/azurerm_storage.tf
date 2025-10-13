@@ -6,7 +6,6 @@ resource "azurerm_storage_account" "cdp_catalog_root_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
   is_hns_enabled           = true
-  sftp_enabled             = true
 }
 
 resource "azurerm_storage_container" "cdp_catalog_storage_root" {
@@ -29,7 +28,6 @@ resource "azurerm_storage_account" "cdp_stage_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
   is_hns_enabled           = true
-  sftp_enabled             = true
 }
 
 resource "azurerm_storage_container" "cdp_catalog_storage_stage" {
