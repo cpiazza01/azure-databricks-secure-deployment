@@ -1,7 +1,13 @@
 resource "databricks_group" "catalog_users" {
-  display_name          = "CDP_CATALOG_USERS_${upper(var.env)}"
-  workspace_access      = true
+  display_name = "CDP_CATALOG_USERS_${upper(var.env)}"
+}
+
+resource "databricks_entitlements" "catalog_users_entitlements" {
+  provider              = databricks.dbx_workspace
+  depends_on            = [databricks_mws_permission_assignment.account_admin]
+  group_id              = databricks_group.catalog_users.id
   databricks_sql_access = true
+  workspace_access      = true
 }
 
 resource "databricks_group" "entra_groups" {

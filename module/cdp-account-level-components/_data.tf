@@ -20,7 +20,6 @@ data "azuread_groups" "cdp_group_objects" {
 }
 
 data "azuread_group" "databricks_groups" {
-  # for_each     = { for key, value in data.azuread_groups.cdp_group_objects.display_names : value => value if endswith(value, "_${upper(var.env)}")}
   for_each     = toset([for name in data.azuread_groups.cdp_group_objects.display_names : name if endswith(name, "_${upper(var.env)}")])
   display_name = each.value
 }
