@@ -85,3 +85,12 @@ resource "databricks_group_member" "catalog_users_staging_outbound" {
   group_id  = databricks_group.catalog_users.id
   member_id = databricks_group.staging_outbound.id
 }
+
+# Staging Outbound Access Groups
+resource "databricks_group" "functions" {
+  display_name = "CDP_FUNCTIONS_${upper(var.env)}"
+}
+resource "databricks_group_member" "catalog_users_functions" {
+  group_id  = databricks_group.catalog_users.id
+  member_id = databricks_group.functions.id
+}
