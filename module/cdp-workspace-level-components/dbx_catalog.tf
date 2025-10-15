@@ -2,6 +2,7 @@
 resource "databricks_catalog" "cdp_catalog" {
   name         = "cdp_${lower(var.env)}"
   storage_root = databricks_external_location.cdp_catalog_root_ext_loc.url
+  owner        = local.workspace_admin_group.display_name
 }
 resource "databricks_grant" "cdp_catalog_users" {
   catalog = databricks_catalog.cdp_catalog.name
