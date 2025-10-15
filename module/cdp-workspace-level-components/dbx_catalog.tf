@@ -19,14 +19,14 @@ resource "databricks_schema" "cdp_bronze_schemas" {
   storage_root = databricks_external_location.cdp_catalog_bronze_ext_loc.url
 }
 resource "databricks_grant" "bronze_schemas_ro" {
-  for_each   = toset(var.cdp_bronze_and_silver_schemas)
-  schema     = "bronze_${each.value}"
+  for_each   = databricks_schema.cdp_bronze_schemas
+  schema     = each.value.id
   principal  = local.cdp_bronze_ro_group.display_name
   privileges = var.cdp_ro_privileges_table_schemas
 }
 resource "databricks_grant" "bronze_schemas_rw" {
-  for_each   = toset(var.cdp_bronze_and_silver_schemas)
-  schema     = "bronze_${each.value}"
+  for_each   = databricks_schema.cdp_bronze_schemas
+  schema     = each.value.id
   principal  = local.cdp_bronze_rw_group.display_name
   privileges = var.cdp_rw_privileges_table_schemas
 }
@@ -40,14 +40,14 @@ resource "databricks_schema" "cdp_silver_schemas" {
   storage_root = databricks_external_location.cdp_catalog_silver_ext_loc.url
 }
 resource "databricks_grant" "silver_schemas_ro" {
-  for_each   = toset(var.cdp_bronze_and_silver_schemas)
-  schema     = "silver_${each.value}"
+  for_each   = databricks_schema.cdp_silver_schemas
+  schema     = each.value.id
   principal  = local.cdp_silver_ro_group.display_name
   privileges = var.cdp_ro_privileges_table_schemas
 }
 resource "databricks_grant" "silver_schemas_rw" {
-  for_each   = toset(var.cdp_bronze_and_silver_schemas)
-  schema     = "silver_${each.value}"
+  for_each   = databricks_schema.cdp_silver_schemas
+  schema     = each.value.id
   principal  = local.cdp_silver_rw_group.display_name
   privileges = var.cdp_rw_privileges_table_schemas
 }
