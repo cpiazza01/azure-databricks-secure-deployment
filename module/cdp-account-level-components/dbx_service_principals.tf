@@ -8,7 +8,11 @@ resource "databricks_group_member" "workspace_admin_sp_in_admin_group" {
 }
 
 resource "databricks_service_principal" "rw" {
-  for_each     = { for key, group in databricks_group.entra_groups : group.display_name => group if !strcontains(group.display_name, "WORKSPACE_ADMIN") }
+  for_each = {
+    for key, group in databricks_group.entra_groups : group.display_name => group
+    if !strcontains(group.display_name, "WORKSPACE_ADMIN")
+    && !strcontains(group.display_name, "_CONSUMER_TEAM_")
+  }
   display_name = "SP_RW_${each.value.display_name}"
 }
 
