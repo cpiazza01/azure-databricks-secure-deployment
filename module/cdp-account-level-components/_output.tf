@@ -40,3 +40,11 @@ output "cdp_staging_outbound_group" {
 output "cdp_functions_group" {
   value = databricks_group.functions
 }
+
+# Service Principals
+output "cdp_rw_sps" {
+  value = databricks_service_principal.rw
+}
+output "cdp_ro_sps" {
+  value = databricks_service_principal.ro
+}
