@@ -86,11 +86,19 @@ resource "databricks_group_member" "catalog_users_staging_outbound" {
   member_id = databricks_group.staging_outbound.id
 }
 
-# Staging Outbound Access Groups
+# Functions Access Groups
 resource "databricks_group" "functions" {
   display_name = "CDP_FUNCTIONS_${upper(var.env)}"
 }
 resource "databricks_group_member" "catalog_users_functions" {
   group_id  = databricks_group.catalog_users.id
   member_id = databricks_group.functions.id
+}
+
+# Functions group membership - all entra groups
+# This should also place all entra groups in the CDP workspace
+resource "databricks_group_member" "cdp_functions_group_membership_all_entra" {
+  for_each  = databricks_group.entra_groups
+  group_id  = local.cdp_functions_group.id
+  member_id = each.value.id
 }

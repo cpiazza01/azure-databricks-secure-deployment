@@ -1,10 +1,3 @@
-# Functions group membership - all entra groups
-resource "databricks_group_member" "cdp_functions_group_membership_all_entra" {
-  for_each  = local.cdp_entra_groups
-  group_id  = local.cdp_functions_group.id
-  member_id = each.value.id
-}
-
 # Bronze group membership - Platform ingestion team
 resource "databricks_group_member" "cdp_bronze_rw_membership_platform_ingestion_team" {
   count     = var.env == "dev" ? 1 : 0
