@@ -99,6 +99,6 @@ resource "databricks_group_member" "catalog_users_functions" {
 # This should also place all entra groups in the CDP workspace
 resource "databricks_group_member" "cdp_functions_group_membership_all_entra" {
   for_each  = databricks_group.entra_groups
-  group_id  = local.cdp_functions_group.id
+  group_id  = databricks_group.functions.id
   member_id = each.value.id
 }
