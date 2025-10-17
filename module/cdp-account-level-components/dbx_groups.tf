@@ -14,11 +14,11 @@ resource "databricks_group" "entra_groups" {
   display_name = each.value.display_name
   external_id  = each.value.object_id
 }
-# resource "databricks_group_member" "catalog_users_entra_groups" {
-#   for_each  = databricks_group.entra_groups
-#   group_id  = databricks_group.catalog_users.id
-#   member_id = each.value.id
-# }
+resource "databricks_group_member" "catalog_users_entra_groups" {
+  for_each  = databricks_group.entra_groups
+  group_id  = databricks_group.catalog_users.id
+  member_id = each.value.id
+}
 
 # Bronze layer Access Groups
 resource "databricks_group" "bronze_rw" {
@@ -26,14 +26,6 @@ resource "databricks_group" "bronze_rw" {
 }
 resource "databricks_group" "bronze_ro" {
   display_name = "CDP_BRONZE_RO_${upper(var.env)}"
-}
-resource "databricks_group_member" "catalog_users_bronze_rw" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.bronze_rw.id
-}
-resource "databricks_group_member" "catalog_users_bronze_ro" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.bronze_ro.id
 }
 
 # Silver layer Access Groups
@@ -43,14 +35,6 @@ resource "databricks_group" "silver_rw" {
 resource "databricks_group" "silver_ro" {
   display_name = "CDP_SILVER_RO_${upper(var.env)}"
 }
-resource "databricks_group_member" "catalog_users_silver_rw" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.silver_rw.id
-}
-resource "databricks_group_member" "catalog_users_silver_ro" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.silver_ro.id
-}
 
 # Gold layer Access Groups
 resource "databricks_group" "gold_rw" {
@@ -59,46 +43,18 @@ resource "databricks_group" "gold_rw" {
 resource "databricks_group" "gold_ro" {
   display_name = "CDP_GOLD_RO_${upper(var.env)}"
 }
-resource "databricks_group_member" "catalog_users_gold_rw" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.gold_rw.id
-}
-resource "databricks_group_member" "catalog_users_gold_ro" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.gold_ro.id
-}
 
 # Staging Inbound Access Groups
 resource "databricks_group" "staging_inbound" {
   display_name = "CDP_STAGING_INBOUND_${upper(var.env)}"
-}
-resource "databricks_group_member" "catalog_users_staging_inbound" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.staging_inbound.id
 }
 
 # Staging Outbound Access Groups
 resource "databricks_group" "staging_outbound" {
   display_name = "CDP_STAGING_OUTBOUND_${upper(var.env)}"
 }
-resource "databricks_group_member" "catalog_users_staging_outbound" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.staging_outbound.id
-}
 
 # Functions Access Groups
 resource "databricks_group" "functions" {
   display_name = "CDP_FUNCTIONS_${upper(var.env)}"
-}
-resource "databricks_group_member" "catalog_users_functions" {
-  group_id  = databricks_group.catalog_users.id
-  member_id = databricks_group.functions.id
-}
-
-# Functions group membership - all entra groups
-# This should also place all entra groups in the CDP workspace
-resource "databricks_group_member" "cdp_functions_group_membership_all_entra" {
-  for_each  = databricks_group.entra_groups
-  group_id  = databricks_group.functions.id
-  member_id = each.value.id
 }
