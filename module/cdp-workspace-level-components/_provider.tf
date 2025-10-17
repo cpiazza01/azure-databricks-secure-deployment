@@ -17,11 +17,6 @@ provider "databricks" {
   client_id = var.workspace_admin_client_id
 }
 
-provider "databricks" {
-  alias     = "account"
-  client_id = var.workspace_admin_client_id
-}
-
 provider "azurerm" {
   features {}
   resource_provider_registrations = "none"
