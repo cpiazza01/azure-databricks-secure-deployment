@@ -1,5 +1,6 @@
 # Functions schema
 resource "databricks_group_member" "cdp_functions_group_membership_all_entra_dev" {
+  provider = databricks.account
   for_each  = { for group in local.cdp_entra_groups : group.display_name => group if var.env == "dev" }
   group_id  = local.cdp_functions_group.id
   member_id = each.value.id
