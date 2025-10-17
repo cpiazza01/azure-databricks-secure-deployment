@@ -5,7 +5,7 @@ resource "databricks_group_member" "cdp_functions_group_membership_all_entra_dev
   member_id = each.value.id
 }
 resource "databricks_group_member" "cdp_functions_group_membership_all_rw_sps" {
-  for_each  = local.cdp_rw_sps
+  for_each  = { for sp in local.cdp_rw_sps : sp.display_name => sp }
   group_id  = local.cdp_functions_group
   member_id = each.value.id
 }
@@ -99,24 +99,24 @@ resource "databricks_group_member" "cdp_staging_inbound_membership_platform_inge
 
 # Staging inbound group membership - App teams
 resource "databricks_group_member" "cdp_staging_inbound_membership_app_teams_dev" {
-  for_each  = toset([for group in local.app_team_groups : group if var.env == "dev"])
+  for_each  = { for group in local.app_team_groups : group.display_name => group if var.env == "dev" }
   group_id  = local.cdp_staging_inbound_group.id
   member_id = each.value.id
 }
 resource "databricks_group_member" "cdp_staging_inbound_membership_app_teams_rw_sp" {
-  for_each  = local.app_team_sps_rw
+  for_each  = { for sp in local.app_team_sps_rw : sp.display_name => sp }
   group_id  = local.cdp_staging_inbound_group.id
   member_id = each.value.id
 }
 
 # Staging outbound group membership - App teams
 resource "databricks_group_member" "cdp_staging_outbound_membership_app_teams_dev" {
-  for_each  = toset([for group in local.app_team_groups : group if var.env == "dev"])
+  for_each  = { for group in local.app_team_groups : group.display_name => group if var.env == "dev" }
   group_id  = local.cdp_staging_outbound_group.id
   member_id = each.value.id
 }
 resource "databricks_group_member" "cdp_staging_outbound_membership_app_teams_rw_sp" {
-  for_each  = local.app_team_sps_rw
+  for_each  = { for sp in local.app_team_sps_rw : sp.display_name => sp }
   group_id  = local.cdp_staging_outbound_group.id
   member_id = each.value.id
 }
