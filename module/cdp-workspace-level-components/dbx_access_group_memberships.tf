@@ -1,12 +1,12 @@
 # Functions schema
 resource "databricks_group_member" "cdp_functions_group_membership_all_entra_dev" {
-  for_each  = toset([for group in local.cdp_entra_groups : group if var.env == "dev"])
-  group_id  = local.cdp_functions_group
+  for_each  = { for group in local.cdp_entra_groups : group.display_name => group if var.env == "dev" }
+  group_id  = local.cdp_functions_group.id
   member_id = each.value.id
 }
 resource "databricks_group_member" "cdp_functions_group_membership_all_rw_sps" {
   for_each  = { for sp in local.cdp_rw_sps : sp.display_name => sp }
-  group_id  = local.cdp_functions_group
+  group_id  = local.cdp_functions_group.id
   member_id = each.value.id
 }
 
