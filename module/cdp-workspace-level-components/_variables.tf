@@ -12,10 +12,6 @@ variable "location" {
   default = "East US"
 }
 
-variable "workspace_admin_client_id" {
-  type = string
-}
-
 variable "storage_account_acceses_to_grant" {
   type = list(string)
   default = [

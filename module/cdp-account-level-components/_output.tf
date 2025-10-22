@@ -48,3 +48,6 @@ output "cdp_rw_sps" {
 output "cdp_ro_sps" {
   value = databricks_service_principal.ro
 }
+output "cdp_workspace_admin_sp" {
+  value = databricks_service_principal.workspace_admin_sp
+}

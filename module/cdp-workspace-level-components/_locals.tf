@@ -18,6 +18,8 @@ locals {
   cdp_staging_inbound_group  = data.terraform_remote_state.cdp_account_components.outputs.cdp_staging_inbound_group
   cdp_staging_outbound_group = data.terraform_remote_state.cdp_account_components.outputs.cdp_staging_outbound_group
   cdp_functions_group        = data.terraform_remote_state.cdp_account_components.outputs.cdp_functions_group
+  cdp_workspace_admin_sp     = data.terraform_remote_state.cdp_account_components.outputs.cdp_workspace_admin_sp
+
 
   cdp_rw_sps = data.terraform_remote_state.cdp_account_components.outputs.cdp_rw_sps
   cdp_ro_sps = data.terraform_remote_state.cdp_account_components.outputs.cdp_ro_sps
