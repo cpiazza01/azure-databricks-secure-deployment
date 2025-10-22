@@ -4,7 +4,7 @@ data "terraform_remote_state" "azurerm_components" {
   backend = "azurerm"
   config = {
     resource_group_name  = "shared-${var.env}"
-    storage_account_name = "cpiazzatfstatedev"
+    storage_account_name = "cpiazzatfstate${var.env}"
     container_name       = "cdp-tfstate"
     key                  = "azurerm-cdp-dbx-workspace.tfstate"
   }
