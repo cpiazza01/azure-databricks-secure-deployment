@@ -30,7 +30,7 @@ resource "databricks_cluster_policy" "group_all_purpose_cluster_policies" {
     },
     "node_type_id" : {
       "type" : "allowlist",
-      "values" : startswith(group.display_name, "CDP_ANALYTICS_TEAM") ? var.cluster_policy_node_types_analytics : var.cluster_policy_node_types_engineers
+      "values" : startswith(each.value.display_name, "CDP_ANALYTICS_TEAM") ? var.cluster_policy_node_types_analytics : var.cluster_policy_node_types_engineers
       "defaultValue" : "Standard_D4pds_v6"
     },
     "runtime_engine" : {
