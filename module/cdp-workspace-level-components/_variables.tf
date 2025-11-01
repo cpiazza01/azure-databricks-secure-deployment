@@ -64,3 +64,33 @@ variable "cdp_privileges_staging" {
   type    = list(string)
   default = ["CREATE_EXTERNAL_VOLUME", "CREATE_EXTERNAL_TABLE"]
 }
+
+variable "cluster_policy_node_types_engineers" {
+  type = list(string)
+  default = [
+    "Standard_D4pds_v6",
+    "Standard_E8_v3",
+    "Standard_L8s_v2"
+  ]
+}
+
+variable "cluster_policy_node_types_analytics" {
+  type = list(string)
+  default = [
+    "Standard_D4pds_v6",
+    "Standard_D8pds_v6",
+    "Standard_D16pds_v6",
+    "Standard_D32pds_v6",
+    "Standard_E8_v3",
+    "Standard_E16_v3",
+    "Standard_E32_v3",
+    "Standard_E64_v3",
+    "Standard_L8s_v2",
+    "Standard_L16s_v2",
+    "Standard_L32s_v2",
+    "Standard_L64s_v2",
+    "Standard_NC4as_T4_v3",
+    "Standard_NC8as_T4_v3",
+    "Standard_NC16as_T4_v3"
+  ]
+}
