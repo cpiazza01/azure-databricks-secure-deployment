@@ -35,7 +35,7 @@ resource "databricks_cluster_policy" "group_all_purpose_cluster_policies" {
     },
     "runtime_engine" : {
       "type" : "fixed",
-      "values" : ["STANDARD"]
+      "value" : "STANDARD"
     },
     "spark_conf.spark.databricks.cluster.profile" : {
       "type" : "fixed",

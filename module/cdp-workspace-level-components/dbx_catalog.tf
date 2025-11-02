@@ -75,6 +75,7 @@ resource "databricks_grant" "gold_schemas_rw" {
   privileges = var.cdp_rw_privileges_table_schemas
 }
 
+# Functions
 resource "databricks_schema" "cdp_functions_schema" {
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "functions"
@@ -85,3 +86,7 @@ resource "databricks_grant" "functions_schema" {
   principal  = local.cdp_functions_group.display_name
   privileges = var.cdp_privileges_functions_schema
 }
+
+# Make functions RO and RW group
+# Make audit schema 
+# Make audit ro and rw groups
