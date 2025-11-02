@@ -25,7 +25,7 @@ locals {
   consumer_team_sps_rw     = [for sp in databricks_service_principal.rw : sp if startswith(sp.display_name, "SP_RW_CDP_CONSUMER_TEAM_")]
   consumer_team_sps_ro     = [for sp in databricks_service_principal.ro : sp if startswith(sp.display_name, "SP_RO_CDP_CONSUMER_TEAM_")]
 
-  groups_with_budget_policies = [
+  groups_with_budget_policies = flatten([
     for group in databricks_group.entra_groups : [
       for pol in databricks_budget_policy.budget_policies :
       {
@@ -35,5 +35,5 @@ locals {
       }
       if group.display_name == split("_BUDGET_POLICY_", pol.policy_name)[0]
     ]
-  ]
+  ])
 }
