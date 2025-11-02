@@ -81,12 +81,46 @@ resource "databricks_schema" "cdp_functions_schema" {
   name         = "functions"
   comment      = "Schema that teams can use to create functions if needed."
 }
-resource "databricks_grant" "functions_schema" {
+resource "databricks_grant" "functions_schema_ro" {
   schema     = databricks_schema.cdp_functions_schema.id
   principal  = local.cdp_functions_group.display_name
-  privileges = var.cdp_privileges_functions_schema
+  privileges = var.cdp_privileges_functions_schema_ro
+}
+resource "databricks_grant" "functions_schema_rw" {
+  schema     = databricks_schema.cdp_functions_schema.id
+  principal  = local.cdp_functions_group.display_name
+  privileges = var.cdp_privileges_functions_schema_rw
 }
 
-# Make functions RO and RW group
-# Make audit schema 
-# Make audit ro and rw groups
+# Audit
+resource "databricks_schema" "cdp_audit_schema" {
+  catalog_name = databricks_catalog.cdp_catalog.id
+  name         = "audit"
+  comment      = "Schema that teams can use to for auditing/tracking purposes, such as logs or checkpoints."
+}
+resource "databricks_grant" "audit_schema_ro" {
+  schema     = databricks_schema.cdp_audit_schema.id
+  principal  = local.cdp_functions_group.display_name
+  privileges = var.cdp_ro_privileges_table_schemas
+}
+resource "databricks_grant" "audit_schema_rw" {
+  schema     = databricks_schema.cdp_audit_schema.id
+  principal  = local.cdp_functions_group.display_name
+  privileges = var.cdp_rw_privileges_table_schemas
+}
+
+# Cluster logs volume
+resource "databricks_volume" "cluster_logs_volumes" {
+  for_each     = { for index, group in local.cdp_entra_groups : group.display_name => group }
+  name         = "cluster_logs_${lower(each.value.display_name)}"
+  catalog_name = databricks_catalog.cdp_catalog.name
+  schema_name  = databricks_schema.cdp_audit_schema.name
+  volume_type  = "MANAGED"
+  comment      = "Cluster logs volume provisioned for group ${each.value.display_name}"
+}
+resource "databricks_grant" "cluster_logs_grants" {
+  for_each   = databricks_volume.cluster_logs_volumes
+  volume     = each.value.id
+  principal  = upper(split("cluster_logs_", each.value.name)[1])
+  privileges = ["READ_VOLUME", "WRITE_VOLUME"]
+}

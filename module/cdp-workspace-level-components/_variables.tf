@@ -55,9 +55,14 @@ variable "cdp_rw_privileges_table_schemas" {
   default = ["SELECT", "CREATE_TABLE", "CREATE_VOLUME"]
 }
 
-variable "cdp_privileges_functions_schema" {
+variable "cdp_privileges_functions_schema_rw" {
   type    = list(string)
-  default = ["CREATE_FUNCTION"]
+  default = ["CREATE_FUNCTION", "EXECUTE"]
+}
+
+variable "cdp_privileges_functions_schema_ro" {
+  type    = list(string)
+  default = ["EXECUTE"]
 }
 
 variable "cdp_privileges_staging" {

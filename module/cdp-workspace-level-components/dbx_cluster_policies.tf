@@ -14,7 +14,7 @@ resource "databricks_cluster_policy" "group_all_purpose_cluster_policies" {
     },
     "cluster_log_conf.path" : {
       "type" : "unlimited",
-      "defaultValue" : "/Volumes/cdp_${var.env}/volumes/cluster_logs/${each.value.display_name}"
+      "defaultValue" : "/Volumes/cdp_${var.env}/audit/cluster_logs_${lower(each.value.display_name)}"
     },
     "cluster_log_conf.type" : {
       "type" : "fixed",
