@@ -100,7 +100,7 @@ resource "databricks_schema" "cdp_audit_schema" {
 }
 resource "databricks_grant" "audit_schema_ro" {
   schema     = databricks_schema.cdp_audit_schema.id
-  principal  = local.cdp_audit_rw_group.display_name
+  principal  = local.cdp_audit_ro_group.display_name
   privileges = var.cdp_ro_privileges_table_schemas
 }
 resource "databricks_grant" "audit_schema_rw" {

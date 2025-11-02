@@ -24,4 +24,16 @@ locals {
   app_team_sps_ro          = [for sp in databricks_service_principal.ro : sp if startswith(sp.display_name, "SP_RO_CDP_APP_TEAM_")]
   consumer_team_sps_rw     = [for sp in databricks_service_principal.rw : sp if startswith(sp.display_name, "SP_RW_CDP_CONSUMER_TEAM_")]
   consumer_team_sps_ro     = [for sp in databricks_service_principal.ro : sp if startswith(sp.display_name, "SP_RO_CDP_CONSUMER_TEAM_")]
+
+  groups_with_budget_policies = [
+    for group in databricks_group.databricks_group.entra_groups : [
+      for pol in databricks_budget_policy.budget_policies :
+      {
+        display_name     = group.display_name
+        acl_principal_id = group.acl_principal_id
+        budget_policy_id = pol.policy_id
+      }
+      if group.display_name == split("_BUDGET_POLICY_", pol.policy_name)[0]
+    ]
+  ]
 }
