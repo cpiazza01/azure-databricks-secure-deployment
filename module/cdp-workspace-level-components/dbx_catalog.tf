@@ -83,12 +83,12 @@ resource "databricks_schema" "cdp_functions_schema" {
 }
 resource "databricks_grant" "functions_schema_ro" {
   schema     = databricks_schema.cdp_functions_schema.id
-  principal  = local.cdp_functions_group.display_name
+  principal  = local.cdp_functions_ro_group.display_name
   privileges = var.cdp_privileges_functions_schema_ro
 }
 resource "databricks_grant" "functions_schema_rw" {
   schema     = databricks_schema.cdp_functions_schema.id
-  principal  = local.cdp_functions_group.display_name
+  principal  = local.cdp_functions_rw_group.display_name
   privileges = var.cdp_privileges_functions_schema_rw
 }
 
@@ -100,12 +100,12 @@ resource "databricks_schema" "cdp_audit_schema" {
 }
 resource "databricks_grant" "audit_schema_ro" {
   schema     = databricks_schema.cdp_audit_schema.id
-  principal  = local.cdp_functions_group.display_name
+  principal  = local.cdp_audit_rw_group.display_name
   privileges = var.cdp_ro_privileges_table_schemas
 }
 resource "databricks_grant" "audit_schema_rw" {
   schema     = databricks_schema.cdp_audit_schema.id
-  principal  = local.cdp_functions_group.display_name
+  principal  = local.cdp_audit_rw_group.display_name
   privileges = var.cdp_rw_privileges_table_schemas
 }
 

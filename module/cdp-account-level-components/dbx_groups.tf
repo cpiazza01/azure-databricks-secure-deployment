@@ -111,12 +111,44 @@ resource "databricks_access_control_rule_set" "ws_admin_staging_outbound" {
   }
 }
 
-# Functions Access Groups
-resource "databricks_group" "functions" {
-  display_name = "CDP_FUNCTIONS_${upper(var.env)}"
+# Functions Schema Access Groups
+resource "databricks_group" "functions_ro" {
+  display_name = "CDP_FUNCTIONS_RO_${upper(var.env)}"
 }
-resource "databricks_access_control_rule_set" "ws_admin_functions" {
-  name = "accounts/${var.databricks_account_id}/groups/${databricks_group.functions.id}/ruleSets/default"
+resource "databricks_group" "functions_rw" {
+  display_name = "CDP_FUNCTIONS_RW_${upper(var.env)}"
+}
+resource "databricks_access_control_rule_set" "ws_admin_functions_ro" {
+  name = "accounts/${var.databricks_account_id}/groups/${databricks_group.functions_ro.id}/ruleSets/default"
+  grant_rules {
+    principals = [local.workspace_admin_group.acl_principal_id]
+    role       = "roles/group.manager"
+  }
+}
+resource "databricks_access_control_rule_set" "ws_admin_functions_rw" {
+  name = "accounts/${var.databricks_account_id}/groups/${databricks_group.functions_rw.id}/ruleSets/default"
+  grant_rules {
+    principals = [local.workspace_admin_group.acl_principal_id]
+    role       = "roles/group.manager"
+  }
+}
+
+# Audit Schema Access Groups
+resource "databricks_group" "audit_ro" {
+  display_name = "CDP_AUDIT_RO_${upper(var.env)}"
+}
+resource "databricks_group" "audit_rw" {
+  display_name = "CDP_AUDIT_RW_${upper(var.env)}"
+}
+resource "databricks_access_control_rule_set" "ws_admin_audit_ro" {
+  name = "accounts/${var.databricks_account_id}/groups/${databricks_group.audit_ro.id}/ruleSets/default"
+  grant_rules {
+    principals = [local.workspace_admin_group.acl_principal_id]
+    role       = "roles/group.manager"
+  }
+}
+resource "databricks_access_control_rule_set" "ws_admin_audit_rw" {
+  name = "accounts/${var.databricks_account_id}/groups/${databricks_group.audit_rw.id}/ruleSets/default"
   grant_rules {
     principals = [local.workspace_admin_group.acl_principal_id]
     role       = "roles/group.manager"

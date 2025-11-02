@@ -37,8 +37,17 @@ output "cdp_staging_inbound_group" {
 output "cdp_staging_outbound_group" {
   value = databricks_group.staging_outbound
 }
-output "cdp_functions_group" {
-  value = databricks_group.functions
+output "cdp_functions_ro_group" {
+  value = databricks_group.functions_ro
+}
+output "cdp_functions_rw_group" {
+  value = databricks_group.functions_rw
+}
+output "cdp_audit_ro_group" {
+  value = databricks_group.audit_ro
+}
+output "cdp_audit_rw_group" {
+  value = databricks_group.audit_rw
 }
 
 # Service Principals

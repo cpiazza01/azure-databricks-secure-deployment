@@ -17,7 +17,10 @@ locals {
   cdp_gold_ro_group          = data.terraform_remote_state.cdp_account_components.outputs.cdp_gold_ro_group
   cdp_staging_inbound_group  = data.terraform_remote_state.cdp_account_components.outputs.cdp_staging_inbound_group
   cdp_staging_outbound_group = data.terraform_remote_state.cdp_account_components.outputs.cdp_staging_outbound_group
-  cdp_functions_group        = data.terraform_remote_state.cdp_account_components.outputs.cdp_functions_group
+  cdp_functions_ro_group     = data.terraform_remote_state.cdp_account_components.outputs.cdp_functions_ro_group
+  cdp_functions_rw_group     = data.terraform_remote_state.cdp_account_components.outputs.cdp_functions_rw_group
+  cdp_audit_ro_group         = data.terraform_remote_state.cdp_account_components.outputs.cdp_audit_ro_group
+  cdp_audit_rw_group         = data.terraform_remote_state.cdp_account_components.outputs.cdp_audit_rw_group
   cdp_workspace_admin_sp     = data.terraform_remote_state.cdp_account_components.outputs.cdp_workspace_admin_sp
 
 
