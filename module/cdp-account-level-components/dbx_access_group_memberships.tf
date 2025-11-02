@@ -1,12 +1,34 @@
 # Functions schema
-resource "databricks_group_member" "cdp_functions_group_membership_all_entra_dev" {
-  for_each  = { for group in databricks_group.entra_groups : group.display_name => group if var.env == "dev" }
-  group_id  = databricks_group.functions.id
+resource "databricks_group_member" "cdp_functions_group_membership_all_entra" {
+  for_each  = databricks_group.entra_groups
+  group_id  = var.env == "dev" ? databricks_group.functions_rw.id : databricks_group.functions_ro.id
   member_id = each.value.id
 }
 resource "databricks_group_member" "cdp_functions_group_membership_all_rw_sps" {
   for_each  = databricks_service_principal.rw
-  group_id  = databricks_group.functions.id
+  group_id  = databricks_group.functions_rw.id
+  member_id = each.value.id
+}
+resource "databricks_group_member" "cdp_functions_group_membership_all_ro_sps" {
+  for_each  = databricks_service_principal.ro
+  group_id  = databricks_group.functions_ro.id
+  member_id = each.value.id
+}
+
+# Audit schema
+resource "databricks_group_member" "cdp_audit_group_membership_all_entra" {
+  for_each  = databricks_group.entra_groups
+  group_id  = var.env == "dev" ? databricks_group.audit_rw.id : databricks_group.audit_ro.id
+  member_id = each.value.id
+}
+resource "databricks_group_member" "cdp_audit_group_membership_all_rw_sps" {
+  for_each  = databricks_service_principal.rw
+  group_id  = databricks_group.audit_rw.id
+  member_id = each.value.id
+}
+resource "databricks_group_member" "cdp_audit_group_membership_all_ro_sps" {
+  for_each  = databricks_service_principal.ro
+  group_id  = databricks_group.audit_ro.id
   member_id = each.value.id
 }
 

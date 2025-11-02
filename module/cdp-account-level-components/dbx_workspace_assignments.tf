@@ -67,9 +67,27 @@ resource "databricks_mws_permission_assignment" "staging_outbound_group" {
   permissions  = ["USER"]
   depends_on   = [databricks_metastore_assignment.this]
 }
-resource "databricks_mws_permission_assignment" "functions_group" {
+resource "databricks_mws_permission_assignment" "functions_ro_group" {
   workspace_id = local.workspace_id
-  principal_id = databricks_group.functions.id
+  principal_id = databricks_group.functions_ro.id
+  permissions  = ["USER"]
+  depends_on   = [databricks_metastore_assignment.this]
+}
+resource "databricks_mws_permission_assignment" "functions_rw_group" {
+  workspace_id = local.workspace_id
+  principal_id = databricks_group.functions_rw.id
+  permissions  = ["USER"]
+  depends_on   = [databricks_metastore_assignment.this]
+}
+resource "databricks_mws_permission_assignment" "audit_ro_group" {
+  workspace_id = local.workspace_id
+  principal_id = databricks_group.audit_ro.id
+  permissions  = ["USER"]
+  depends_on   = [databricks_metastore_assignment.this]
+}
+resource "databricks_mws_permission_assignment" "audit_rw_group" {
+  workspace_id = local.workspace_id
+  principal_id = databricks_group.audit_rw.id
   permissions  = ["USER"]
   depends_on   = [databricks_metastore_assignment.this]
 }

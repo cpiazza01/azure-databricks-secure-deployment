@@ -15,3 +15,12 @@ resource "databricks_sql_endpoint" "group_sql_warehouses" {
     }
   }
 }
+
+resource "databricks_permissions" "sql_warehouse_access" {
+  for_each        = databricks_sql_endpoint.group_sql_warehouses
+  sql_endpoint_id = each.value.id
+  access_control {
+    group_name       = split(" Warehouse", each.value.name)[0]
+    permission_level = "CAN_USE"
+  }
+}
