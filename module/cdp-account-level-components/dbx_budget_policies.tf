@@ -1,6 +1,7 @@
 resource "databricks_budget_policy" "budget_policies" {
-  for_each    = databricks_group.entra_groups
-  policy_name = "${each.value.display_name}_BUDGET_POLICY_${upper(var.env)}"
+  for_each              = databricks_group.entra_groups
+  policy_name           = "${each.value.display_name}_BUDGET_POLICY_${upper(var.env)}"
+  binding_workspace_ids = [local.workspace_id]
   custom_tags = [{
     key   = "Team"
     value = each.value.display_name
