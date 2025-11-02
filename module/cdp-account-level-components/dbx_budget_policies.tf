@@ -1,3 +1,13 @@
+resource "databricks_budget_policy" "budget_policy_ws_admin" {
+  for_each              = databricks_group.entra_groups
+  policy_name           = "1_CDP_WORKSPACE_ADMIN_BUDGET_POLICY_${upper(var.env)}"
+  binding_workspace_ids = [local.workspace_id]
+  custom_tags = [{
+    key   = "Team"
+    value = "CDP_WORKSPACE_ADMIN"
+  }]
+}
+
 resource "databricks_budget_policy" "budget_policies" {
   for_each              = databricks_group.entra_groups
   policy_name           = "${each.value.display_name}_BUDGET_POLICY_${upper(var.env)}"
