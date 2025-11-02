@@ -26,7 +26,7 @@ locals {
   consumer_team_sps_ro     = [for sp in databricks_service_principal.ro : sp if startswith(sp.display_name, "SP_RO_CDP_CONSUMER_TEAM_")]
 
   groups_with_budget_policies = [
-    for group in databricks_group.databricks_group.entra_groups : [
+    for group in databricks_group.entra_groups : [
       for pol in databricks_budget_policy.budget_policies :
       {
         display_name     = group.display_name
