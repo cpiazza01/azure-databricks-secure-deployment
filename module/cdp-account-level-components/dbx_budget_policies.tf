@@ -3,7 +3,7 @@ resource "databricks_budget_policy" "budget_policies" {
   policy_name = "${each.value.display_name}_BUDGET_POLICY_${upper(var.env)}"
   custom_tags = [{
     key   = "Team"
-    value = each.value
+    value = each.value.display_name
   }]
 }
 
