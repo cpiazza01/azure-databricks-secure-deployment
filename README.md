@@ -20,3 +20,9 @@ Contains the Databricks workspace-level components that must be deployed using W
 - Unity Catalog 
 - Schemas
 - Relevant Catalog/Schema-level grants
+
+# Some diagrams for more info
+
+## Access Patterns
+
+![Access Patterns](images/CDP%20Access%20Diagram.drawio.png)
