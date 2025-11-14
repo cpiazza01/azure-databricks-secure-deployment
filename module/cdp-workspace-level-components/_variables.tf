@@ -25,7 +25,14 @@ variable "storage_account_acceses_to_grant" {
 variable "cdp_bronze_and_silver_schemas" {
   type = list(string)
   default = [
-    "cms"
+    "claims_source_example",
+    "enrollment_source_example",
+    "mdm_source_example",
+    "broker_source_example",
+    "provider_source_example",
+    "benefits_source_example",
+    "hr_source_example",
+    "sales_source_example"
   ]
 }
 
