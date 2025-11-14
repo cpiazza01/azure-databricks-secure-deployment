@@ -109,6 +109,24 @@ resource "databricks_grant" "audit_schema_rw" {
   privileges = var.cdp_rw_privileges_table_schemas
 }
 
+# Analytics Team Work Schemas
+# resource "databricks_schema" "cdp_analytics_team_work_schemas" {
+#   for_each     = { for index, group in local.cdp_entra_groups : group.display_name => group  if startswith(group.display_name, "CDP_ANALYTICS_TEAM_")}
+#   catalog_name = databricks_catalog.cdp_catalog.id
+#   name         = lower(trimsuffix(trimprefix(group.display_name, "CDP_"), "_${upper(var.env)}"))
+#   comment      = "${group.display_name} Work Schema"
+# }
+# resource "databricks_grant" "audit_schema_ro" {
+#   schema     = databricks_schema.cdp_audit_schema.id
+#   principal  = local.cdp_audit_ro_group.display_name
+#   privileges = var.cdp_ro_privileges_table_schemas
+# }
+# resource "databricks_grant" "audit_schema_rw" {
+#   schema     = databricks_schema.cdp_audit_schema.id
+#   principal  = local.cdp_audit_rw_group.display_name
+#   privileges = var.cdp_rw_privileges_table_schemas
+# }
+
 # Cluster logs volume
 resource "databricks_volume" "cluster_logs_volumes" {
   for_each     = { for index, group in local.cdp_entra_groups : group.display_name => group }
