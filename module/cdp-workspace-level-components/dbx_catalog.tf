@@ -111,25 +111,25 @@ resource "databricks_grant" "audit_schema_rw" {
 
 # Analytics Team Work Schemas
 resource "databricks_schema" "cdp_analytics_team_work_schemas" {
-  for_each     = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each     = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "${each.value.schema_prefix}_work"
   comment      = "${each.value.group_display_name} Work Schema"
 }
 resource "databricks_grant" "cdp_analytics_team_work_schemas_ro_sps_ro" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}_work"
   principal  = each.value.ro_sp_application_id
   privileges = var.cdp_ro_privileges_team_schemas
 }
 resource "databricks_grant" "cdp_analytics_team_work_schemas_groups_rw" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}_work"
   principal  = each.value.group_display_name
   privileges = var.cdp_rw_privileges_team_schemas
 }
 resource "databricks_grant" "cdp_analytics_team_work_schemas_rw_sps_rw" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}_work"
   principal  = each.value.rw_sp_application_id
   privileges = var.cdp_rw_privileges_team_schemas
@@ -137,57 +137,57 @@ resource "databricks_grant" "cdp_analytics_team_work_schemas_rw_sps_rw" {
 
 # Analytics Team Curated Schemas
 resource "databricks_schema" "cdp_analytics_team_curated_schemas" {
-  for_each     = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each     = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "${each.value.schema_prefix}_curated"
   comment      = "${each.value.group_display_name} Curated Schema"
 }
 resource "databricks_grant" "cdp_analytics_team_curated_schemas_ro_sps_ro" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}_curated"
   principal  = each.value.ro_sp_application_id
   privileges = var.cdp_ro_privileges_team_schemas
 }
 resource "databricks_grant" "cdp_analytics_team_curated_schemas_groups_ro" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}_curated"
   principal  = each.value.group_display_name
   privileges = var.cdp_ro_privileges_team_schemas
 }
 resource "databricks_grant" "cdp_analytics_team_curated_schemas_rw_sps_rw" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_")}
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_ANALYTICS_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}_curated"
   principal  = each.value.rw_sp_application_id
   privileges = var.cdp_rw_privileges_team_schemas
 }
 
 # Application Team Schemas
-resource "databricks_schema" "cdp_appplication_team_work_schemas" {
-  for_each     = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_APP_TEAM_")}
+resource "databricks_schema" "cdp_application_team_work_schemas" {
+  for_each     = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_APP_TEAM_") }
   catalog_name = databricks_catalog.cdp_catalog.id
-  name         = "${each.value.schema_prefix}"
+  name         = each.value.schema_prefix
   comment      = "${each.value.group_display_name} Schema"
 }
-resource "databricks_grant" "cdp_appplication_team_schemas_ro_sps_ro" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_APP_TEAM_")}
+resource "databricks_grant" "cdp_application_team_schemas_ro_sps_ro" {
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_APP_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}"
   principal  = each.value.ro_sp_application_id
   privileges = var.cdp_ro_privileges_team_schemas
 }
-resource "databricks_grant" "cdp_appplication_team_schemas_groups_ro" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_APP_TEAM_") && var.env != "dev"}
+resource "databricks_grant" "cdp_application_team_schemas_groups_ro" {
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_APP_TEAM_") && var.env != "dev" }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}"
   principal  = each.value.group_display_name
   privileges = var.cdp_ro_privileges_team_schemas
 }
-resource "databricks_grant" "cdp_appplication_team_schemas_groups_rw" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_APP_TEAM_") && var.env == "dev"}
+resource "databricks_grant" "cdp_application_team_schemas_groups_rw" {
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_APP_TEAM_") && var.env == "dev" }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}"
   principal  = each.value.group_display_name
   privileges = var.cdp_rw_privileges_team_schemas
 }
-resource "databricks_grant" "cdp_appplication_team_schemas_rw_sps_rw" {
-  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info  if startswith(info.group_display_name, "CDP_APP_TEAM_")}
+resource "databricks_grant" "cdp_application_team_schemas_rw_sps_rw" {
+  for_each   = { for index, info in local.groups_and_sps_with_schema : info.group_display_name => info if startswith(info.group_display_name, "CDP_APP_TEAM_") }
   schema     = "${databricks_catalog.cdp_catalog.id}.${each.value.schema_prefix}"
   principal  = each.value.rw_sp_application_id
   privileges = var.cdp_rw_privileges_team_schemas
