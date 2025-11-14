@@ -43,7 +43,7 @@ locals {
         schema_prefix        = lower(trimsuffix(trimprefix(ro_sp.display_name, "SP_RO_CDP_"), "_${upper(var.env)}"))
 
       }
-      if replace(ro_sp.display_name, "SP_RO_CDP_", "SP_RW_CDP") == rw_sp.display_name
+      if replace(ro_sp.display_name, "SP_RO_CDP_", "SP_RW_CDP_") == rw_sp.display_name
     ]
   }
 }
