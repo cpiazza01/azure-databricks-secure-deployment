@@ -47,12 +47,22 @@ variable "cdp_catalog_privileges" {
 
 variable "cdp_ro_privileges_table_schemas" {
   type    = list(string)
-  default = ["SELECT"]
+  default = ["SELECT", "REFRESH"]
+}
+
+variable "cdp_ro_privileges_team_schemas" {
+  type    = list(string)
+  default = ["SELECT", "EXECUTE", "REFRESH"]
 }
 
 variable "cdp_rw_privileges_table_schemas" {
   type    = list(string)
-  default = ["SELECT", "CREATE_TABLE", "CREATE_VOLUME"]
+  default = ["SELECT", "REFRESH", "CREATE_TABLE", "CREATE_MATERIALIZED_VIEW", "CREATE_VOLUME"]
+}
+
+variable "cdp_rw_privileges_team_schemas" {
+  type    = list(string)
+  default = ["SELECT", "REFRESH", "EXECUTE", "CREATE_TABLE", "CREATE_MATERIALIZED_VIEW", "CREATE_VOLUME", "CREATE_FUNCTION", "CREATE_MODEL"]
 }
 
 variable "cdp_privileges_functions_schema_rw" {

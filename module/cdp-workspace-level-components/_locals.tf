@@ -31,7 +31,7 @@ locals {
   workspace_url         = local.workspace.workspace_url
   workspace_admin_group = [for group in local.cdp_entra_groups : group if group.display_name == "CDP_WORKSPACE_ADMIN_${upper(var.env)}"][0]
 
-  schemas_with_groups_and_sps_init = {
+  groups_and_sps_with_schema = {
     for index, ro_sp in local.cdp_ro_sps: replace(ro_sp.display_name, "SP_RO_", "") => [
       for rw_sp in local.cdp_rw_sps : 
       {
@@ -48,6 +48,6 @@ locals {
   }
 }
 
-output "schemas_with_groups_and_sps_init" {
-  value = local.schemas_with_groups_and_sps_init
+output "groups_and_sps_with_schema" {
+  value = local.groups_and_sps_with_schema
 }
