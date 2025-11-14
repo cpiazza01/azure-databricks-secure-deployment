@@ -25,8 +25,8 @@ Contains the Databricks workspace-level components that must be deployed using W
 
 ## Data Flow Diagram
 
-![Data Flow Diagram](images/cdp-data-flow-diagram.drawio.png)
+![Data Flow Diagram](images/cdp-data-flow-diagram.png)
 
 ## Access Patterns Diagram
 
-![Access Patterns Diagram](images/cdp-access-diagram.drawio.png)
+![Access Patterns Diagram](images/cdp-access-diagram.png)
