@@ -33,3 +33,10 @@ data "databricks_service_principal" "account_admin_sp" {
   display_name = "DATABRICKS_ACCOUNT_ADMIN_SP"
 }
 
+data "databricks_group" "test" {
+  display_name = "CDP_WORKSPACE_ADMIN_DEV"
+}
+
+output "name" {
+  value = data.databricks_group.test
+}
