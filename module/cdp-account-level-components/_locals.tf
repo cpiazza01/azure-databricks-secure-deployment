@@ -5,13 +5,12 @@ locals {
 
   workspace = data.terraform_remote_state.azurerm_components.outputs.azure_databricks_workspace
 
-  workspace_id          = local.workspace.workspace_id
-  workspace_url         = local.workspace.workspace_url
-  workspace_admin_group = [for group in databricks_group.entra_groups : group if group.display_name == "CDP_WORKSPACE_ADMIN_${upper(var.env)}"][0]
+  workspace_id  = local.workspace.workspace_id
+  workspace_url = local.workspace.workspace_url
 
   groups_with_budget_policies_project_teams = flatten([
     for group in databricks_group.entra_groups_project_teams : [
-      for pol in databricks_budget_policy.budget_policies :
+      for pol in databricks_budget_policy.budget_policies_project_teams :
       {
         display_name     = group.display_name
         acl_principal_id = group.acl_principal_id
@@ -22,7 +21,7 @@ locals {
   ])
   groups_with_budget_policies_data_product_team = flatten([
     for group in databricks_group.entra_groups_data_product_team : [
-      for pol in databricks_budget_policy.budget_policies :
+      for pol in databricks_budget_policy.budget_policies_data_product_team :
       {
         display_name     = group.display_name
         acl_principal_id = group.acl_principal_id
