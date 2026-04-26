@@ -7,55 +7,34 @@ output "cdp_storage_credential" {
 }
 
 # Groups
-output "cdp_catalog_users_group" {
-  value = databricks_group.catalog_users
+output "cdp_catalog_users_rw_group" {
+  value = databricks_group.catalog_users_rw
 }
-output "cdp_entra_groups" {
-  value = databricks_group.entra_groups
+output "cdp_catalog_users_ro_group" {
+  value = databricks_group.catalog_users_ro
 }
-output "cdp_bronze_rw_group" {
-  value = databricks_group.bronze_rw
+output "cdp_entra_group_workspace_admin" {
+  value = databricks_group.entra_group_workspace_admin
 }
-output "cdp_bronze_ro_group" {
-  value = databricks_group.bronze_ro
+output "cdp_entra_groups_project_teams" {
+  value = databricks_group.entra_groups_project_teams
 }
-output "cdp_silver_rw_group" {
-  value = databricks_group.silver_rw
-}
-output "cdp_silver_ro_group" {
-  value = databricks_group.silver_ro
-}
-output "cdp_gold_rw_group" {
-  value = databricks_group.gold_rw
-}
-output "cdp_gold_ro_group" {
-  value = databricks_group.gold_ro
-}
-output "cdp_staging_inbound_group" {
-  value = databricks_group.staging_inbound
-}
-output "cdp_staging_outbound_group" {
-  value = databricks_group.staging_outbound
-}
-output "cdp_functions_ro_group" {
-  value = databricks_group.functions_ro
-}
-output "cdp_functions_rw_group" {
-  value = databricks_group.functions_rw
-}
-output "cdp_audit_ro_group" {
-  value = databricks_group.audit_ro
-}
-output "cdp_audit_rw_group" {
-  value = databricks_group.audit_rw
+output "cdp_entra_group_data_product_team" {
+  value = databricks_group.entra_group_data_product_team
 }
 
 # Service Principals
-output "cdp_rw_sps" {
-  value = databricks_service_principal.rw
+output "cdp_project_teams_rw_sps" {
+  value = databricks_service_principal.project_teams_rw_sps
 }
-output "cdp_ro_sps" {
-  value = databricks_service_principal.ro
+output "cdp_project_teams_ro_sps" {
+  value = databricks_service_principal.project_teams_ro_sps
+}
+output "cdp_data_product_team_rw_sps" {
+  value = databricks_service_principal.data_product_team_rw_sp
+}
+output "cdp_data_product_team_ro_sps" {
+  value = databricks_service_principal.data_product_team_ro_sp
 }
 output "cdp_workspace_admin_sp" {
   value = databricks_service_principal.workspace_admin_sp
