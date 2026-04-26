@@ -38,6 +38,9 @@ jobs:
       DATABRICKS_HOST: https://accounts.azuredatabricks.net
       DATABRICKS_ACCOUNT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ID }}
       DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_ACCOUNT_ADMIN_CLIENT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_USE_OIDC: true  # 👈 This tells Terraform to use OIDC natively
       ARM_USE_CLI: false   # 👈 Prevents Terraform from trying to use the CLI
 
