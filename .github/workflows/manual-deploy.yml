@@ -35,7 +35,6 @@ jobs:
       name: ${{ github.ref_name == 'main' && 'prod' || github.ref_name  == 'test' && 'test' || 'dev' }}
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       DATABRICKS_AUTH_TYPE: github-oidc
