@@ -23,6 +23,6 @@ resource "databricks_grant" "workspace_admin_storage_credential_grant" {
   provider           = databricks.dbx_workspace
   depends_on         = [databricks_mws_permission_assignment.account_admin]
   storage_credential = databricks_storage_credential.cdp_storage_credential.id
-  principal          = local.workspace_admin_group.display_name
+  principal          = databricks_group.entra_group_workspace_admin_team.display_name
   privileges         = ["CREATE_EXTERNAL_LOCATION"]
 }

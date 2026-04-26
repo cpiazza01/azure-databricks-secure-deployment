@@ -2,7 +2,7 @@ resource "databricks_grant" "workspace_admin_metastore_grants" {
   provider   = databricks.dbx_workspace
   depends_on = [databricks_mws_permission_assignment.account_admin]
   metastore  = data.databricks_metastore.eastus.id
-  principal  = local.workspace_admin_group.display_name
+  principal  = databricks_group.entra_group_workspace_admin_team.display_name
   privileges = [
     "CREATE_RECIPIENT",
     "CREATE_PROVIDER",

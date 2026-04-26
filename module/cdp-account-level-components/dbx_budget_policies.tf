@@ -27,7 +27,7 @@ resource "databricks_access_control_rule_set" "domain_budget_policy_rule_set_pro
 }
 
 resource "databricks_budget_policy" "budget_policies_data_product_team" {
-  for_each              = databricks_group.entra_groups_data_product_team
+  for_each              = databricks_group.entra_group_data_product_team
   policy_name           = "${each.value.display_name}_BUDGET_POLICY_${upper(var.env)}"
   binding_workspace_ids = [local.workspace_id]
   custom_tags = [{

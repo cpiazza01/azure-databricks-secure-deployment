@@ -7,7 +7,7 @@ resource "databricks_mws_permission_assignment" "account_admin" {
 
 resource "databricks_mws_permission_assignment" "workspace_admins" {
   workspace_id = local.workspace_id
-  principal_id = local.workspace_admin_group.id
+  principal_id = databricks_group.entra_group_workspace_admin_team.display_name.id
   permissions  = ["ADMIN"]
   depends_on   = [databricks_metastore_assignment.this]
 }

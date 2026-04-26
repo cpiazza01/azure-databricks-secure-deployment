@@ -48,7 +48,7 @@ resource "databricks_group_member" "catalog_users_ro_entra_groups_project_teams"
 }
 
 resource "databricks_group" "entra_group_data_product_team" {
-  for_each     = { for k, v in data.azuread_group.databricks_group : v.display_name => v if strcontains(v.display_name, "CDP_DATA_PRODUCT_TEAM_") }
+  for_each     = { for k, v in data.azuread_group.databricks_groups : v.display_name => v if strcontains(v.display_name, "CDP_DATA_PRODUCT_TEAM_") }
   display_name = each.value.display_name
   external_id  = each.value.object_id
 }
