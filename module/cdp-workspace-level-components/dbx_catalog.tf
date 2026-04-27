@@ -90,7 +90,7 @@ resource "databricks_grant" "cdp_gold_datamart_schemas_groups" {
 resource "databricks_grant" "cdp_gold_datamart_schemas_sps_rw" {
   for_each   = databricks_schema.cdp_gold_datamart_schemas
   schema     = each.value.id
-  principal  = local.cdp_data_product_team_rr_sp.application_id
+  principal  = local.cdp_data_product_team_rw_sp.application_id
   privileges = var.cdp_rw_privileges_table_schemas
 }
 resource "databricks_grant" "cdp_gold_datamart_schemas_sps_ro" {
@@ -113,7 +113,7 @@ resource "databricks_grant" "cdp_gold_reporting_schema_groups" {
 }
 resource "databricks_grant" "cdp_gold_reporting_schema_sps_rw" {
   schema     = databricks_schema.cdp_gold_reporting_schema.id
-  principal  = local.cdp_data_product_team_rr_sp.application_id
+  principal  = local.cdp_data_product_team_rw_sp.application_id
   privileges = var.cdp_rw_privileges_table_schemas
 }
 resource "databricks_grant" "cdp_gold_reporting_schema_sps_ro" {
