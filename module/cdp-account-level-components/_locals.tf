@@ -20,7 +20,7 @@ locals {
     ]
   ])
   groups_with_budget_policies_data_product_team = flatten([
-    for group in databricks_group.entra_groups_data_product_team : [
+    for group in databricks_group.entra_group_data_product_team : [
       for pol in databricks_budget_policy.budget_policies_data_product_team :
       {
         display_name     = group.display_name

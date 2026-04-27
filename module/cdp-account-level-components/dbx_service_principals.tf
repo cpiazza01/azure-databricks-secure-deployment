@@ -3,7 +3,7 @@ resource "databricks_service_principal" "workspace_admin_sp" {
 }
 
 resource "databricks_group_member" "workspace_admin_sp_in_admin_group" {
-  group_id  = databricks_group.entra_group_workspace_admin_team.id
+  group_id  = [for group in databricks_group.entra_group_workspace_admin_team: group][0].id
   member_id = databricks_service_principal.workspace_admin_sp.id
 }
 
