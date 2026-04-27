@@ -30,12 +30,32 @@ locals {
           group_display_name = group.display_name
           sp_rw_display_name = sp_rw.display_name
           sp_rw_app_id       = sp_rw.application_id
+          sp_rw_id           = sp_rw.id
         }
       if split("_${upper(var.env)}", split("_TEAM_", group.display_name)[1])[0] == split("_${upper(var.env)}", split("_TEAM_", sp_rw.display_name)[1])[0]
+    ]
+  ])
+  schema_grant_project_team_mappings = flatten([
+    for config in local.schema_grant_project_team_mappings_init : [
+      for sp_ro in local.cdp_project_teams_ro_sps: 
+        {
+          project_name       = config.project_name
+          group_display_name = config.group_display_name
+          sp_rw_display_name = config.sp_rw_display_name
+          sp_rw_app_id       = config.sp_rw_app_id
+          sp_rw_id           = config.sp_rw_id
+          sp_ro_display_name = sp_ro.display_name
+          sp_ro_app_id       = sp_ro.app_id
+          sp_ro_id           = sp_ro.id
+        }
+      if config.project_name == split("_${upper(var.env)}", split("_TEAM_", sp_ro.display_name)[1])[0]
     ]
   ])
 }
 
 output "schema_grant_project_team_mappings_init" {
   value = local.schema_grant_project_team_mappings_init
+}
+output "schema_grant_project_team_mappings" {
+  value = local.schema_grant_project_team_mappings
 }
