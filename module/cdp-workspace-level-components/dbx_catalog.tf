@@ -81,10 +81,43 @@ resource "databricks_schema" "cdp_gold_datamart_schemas" {
   comment      = "Schema for holding the curated datamart (star/dim tables) data for the ${each.value} domain"
   storage_root = databricks_external_location.cdp_catalog_gold_ext_loc.url
 }
+resource "databricks_grant" "cdp_gold_datamart_schemas_groups" {
+  for_each   = databricks_schema.cdp_gold_datamart_schemas
+  schema     = each.value.id
+  principal  = local.cdp_entra_group_data_product_team.display_name
+  privileges = var.env == "dev" ? var.cdp_rw_privileges_table_schemas : var.cdp_ro_privileges_table_schemas
+}
+resource "databricks_grant" "cdp_gold_datamart_schemas_sps_rw" {
+  for_each   = databricks_schema.cdp_gold_datamart_schemas
+  schema     = each.value.id
+  principal  = local.cdp_data_product_team_rr_sp.application_id
+  privileges = var.cdp_rw_privileges_table_schemas
+}
+resource "databricks_grant" "cdp_gold_datamart_schemas_sps_ro" {
+  for_each   = databricks_schema.cdp_gold_datamart_schemas
+  schema     = each.value.id
+  principal  = local.cdp_data_product_team_ro_sp.application_id
+  privileges = var.cdp_ro_privileges_table_schemas
+}
 
 resource "databricks_schema" "cdp_gold_reporting_schema" {
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "gold_reporting"
   comment      = "Schema for holding semantic/reporting data products"
   storage_root = databricks_external_location.cdp_catalog_gold_ext_loc.url
+}
+resource "databricks_grant" "cdp_gold_reporting_schema_groups" {
+  schema     = databricks_schema.cdp_gold_reporting_schema.id
+  principal  = local.cdp_entra_group_data_product_team.display_name
+  privileges = var.env == "dev" ? var.cdp_rw_privileges_table_schemas : var.cdp_ro_privileges_table_schemas
+}
+resource "databricks_grant" "cdp_gold_reporting_schema_sps_rw" {
+  schema     = databricks_schema.cdp_gold_reporting_schema.id
+  principal  = local.cdp_data_product_team_rr_sp.application_id
+  privileges = var.cdp_rw_privileges_table_schemas
+}
+resource "databricks_grant" "cdp_gold_reporting_schema_sps_ro" {
+  schema     = databricks_schema.cdp_gold_reporting_schema.id
+  principal  = local.cdp_data_product_team_ro_sp.application_id
+  privileges = var.cdp_ro_privileges_table_schemas
 }

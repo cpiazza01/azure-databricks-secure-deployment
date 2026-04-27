@@ -16,8 +16,8 @@ locals {
 
   cdp_project_teams_rw_sps     = data.terraform_remote_state.cdp_account_components.outputs.cdp_project_teams_rw_sps
   cdp_project_teams_ro_sps     = data.terraform_remote_state.cdp_account_components.outputs.cdp_project_teams_ro_sps
-  cdp_data_product_team_rw_sps = data.terraform_remote_state.cdp_account_components.outputs.cdp_data_product_team_rw_sps
-  cdp_data_product_team_ro_sps = data.terraform_remote_state.cdp_account_components.outputs.cdp_data_product_team_ro_sps
+  cdp_data_product_team_rw_sp = data.terraform_remote_state.cdp_account_components.outputs.cdp_data_product_team_rw_sp
+  cdp_data_product_team_ro_sp = data.terraform_remote_state.cdp_account_components.outputs.cdp_data_product_team_ro_sp
 
   workspace_id  = local.workspace.workspace_id
   workspace_url = local.workspace.workspace_url

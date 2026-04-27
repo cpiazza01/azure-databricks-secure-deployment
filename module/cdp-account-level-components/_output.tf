@@ -30,10 +30,10 @@ output "cdp_project_teams_rw_sps" {
 output "cdp_project_teams_ro_sps" {
   value = databricks_service_principal.project_teams_ro_sps
 }
-output "cdp_data_product_team_rw_sps" {
+output "cdp_data_product_team_rw_sp" {
   value = databricks_service_principal.data_product_team_rw_sp
 }
-output "cdp_data_product_team_ro_sps" {
+output "cdp_data_product_team_ro_sp" {
   value = databricks_service_principal.data_product_team_ro_sp
 }
 output "cdp_workspace_admin_sp" {
