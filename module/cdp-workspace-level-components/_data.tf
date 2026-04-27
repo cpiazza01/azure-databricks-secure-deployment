@@ -33,19 +33,3 @@ data "databricks_service_principal" "account_admin_sp" {
   display_name = "DATABRICKS_ACCOUNT_ADMIN_SP"
 }
 
-resource "databricks_user" "cody" {
-  user_name = "cody@example.com"
-}
-
-data "databricks_group" "test" {
-  display_name = "CDP_WORKSPACE_ADMIN_DEV"
-}
-
-output "name" {
-  value = data.databricks_group.test
-}
-
-resource "databricks_group_member" "bb" {
-  group_id  = data.databricks_group.test.id
-  member_id = databricks_user.cody.id
-}
