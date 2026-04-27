@@ -33,7 +33,7 @@ resource "databricks_schema" "cdp_silver_schemas" {
 }
 
 resource "databricks_schema" "cdp_gold_datamart_schemas" {
-  for_each     = [ for name in var.cdp_gold_datamart_schemas : name ]
+  for_each     = var.cdp_gold_datamart_schemas
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "gold_datamart_${each.value}"
   comment      = "Schema for holding the curated datamart (star/dim tables) data for the ${each.value} domain"
