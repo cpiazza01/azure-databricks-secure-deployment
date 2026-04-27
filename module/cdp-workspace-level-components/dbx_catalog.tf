@@ -19,7 +19,7 @@ resource "databricks_grant" "cdp_catalog_users_ro" {
 resource "databricks_schema" "cdp_bronze_schemas" {
   for_each     = { for k, v in local.cdp_entra_groups_project_teams : v.display_name => v }
   catalog_name = databricks_catalog.cdp_catalog.id
-  name         = "bronze_${split("_${upper(var.env)}", split("_TEAM_", each.value)[0])[0]}"
+  name         = "bronze_${split("_${upper(var.env)}", split("_TEAM_", each.value.display_name)[0])[0]}"
   comment      = "Schema for holding the raw data for the project team '${each.value.display_name}'."
   storage_root = databricks_external_location.cdp_catalog_bronze_ext_loc.url
 }
@@ -27,7 +27,7 @@ resource "databricks_schema" "cdp_bronze_schemas" {
 resource "databricks_schema" "cdp_silver_schemas" {
   for_each     = { for k, v in local.cdp_entra_groups_project_teams : v.display_name => v }
   catalog_name = databricks_catalog.cdp_catalog.id
-  name         = "silver_${split("_${upper(var.env)}", split("_TEAM_", each.value)[0])[0]}"
+  name         = "silver_${split("_${upper(var.env)}", split("_TEAM_", each.value.display_name)[0])[0]}"
   comment      = "Schema for holding the refined data for the project team '${each.value.display_name}'."
   storage_root = databricks_external_location.cdp_catalog_silver_ext_loc.url
 }
