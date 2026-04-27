@@ -20,7 +20,7 @@ output "cdp_entra_groups_project_teams" {
   value = databricks_group.entra_groups_project_teams
 }
 output "cdp_entra_group_data_product_team" {
-  value = databricks_group.entra_group_data_product_team
+  value = [for group in databricks_group.entra_group_data_product_team : group][0]
 }
 
 # Service Principals
@@ -31,10 +31,10 @@ output "cdp_project_teams_ro_sps" {
   value = databricks_service_principal.project_teams_ro_sps
 }
 output "cdp_data_product_team_rw_sp" {
-  value = databricks_service_principal.data_product_team_rw_sp
+  value = [for sp in databricks_service_principal.data_product_team_rw_sp : sp][0]
 }
 output "cdp_data_product_team_ro_sp" {
-  value = databricks_service_principal.data_product_team_ro_sp
+  value = [for sp in databricks_service_principal.data_product_team_ro_sp : sp][0]
 }
 output "cdp_workspace_admin_sp" {
   value = databricks_service_principal.workspace_admin_sp
