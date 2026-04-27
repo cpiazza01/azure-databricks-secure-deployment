@@ -17,19 +17,55 @@ resource "databricks_grant" "cdp_catalog_users_ro" {
 }
 
 resource "databricks_schema" "cdp_bronze_schemas" {
-  for_each     = { for k, v in local.cdp_entra_groups_project_teams : v.display_name => v }
+  for_each     = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
   catalog_name = databricks_catalog.cdp_catalog.id
-  name         = "bronze_${split("_${upper(var.env)}", split("_TEAM_", each.value.display_name)[1])[0]}"
-  comment      = "Schema for holding the raw data for the for the following data source/project team: ${each.value.display_name}"
+  name         = "bronze_${each.value.project_name}"
+  comment      = "Schema for holding the raw data for the for the following data source/project team: ${each.value.project_name}"
   storage_root = databricks_external_location.cdp_catalog_bronze_ext_loc.url
+}
+resource "databricks_grant" "cdp_bronze_schemas_groups" {
+  for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
+  schema     = "${databricks_catalog.cdp_catalog.name}.bronze_${each.value.project_name}"
+  principal  = each.value.group_display_name
+  privileges = var.env == "dev" ? var.cdp_rw_privileges_table_schemas : var.cdp_ro_privileges_table_schemas
+}
+resource "databricks_grant" "cdp_bronze_schemas_sps_rw" {
+  for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
+  schema     = "${databricks_catalog.cdp_catalog.name}.bronze_${each.value.project_name}"
+  principal  = each.value.sp_rw_app_id
+  privileges = var.cdp_rw_privileges_table_schemas 
+}
+resource "databricks_grant" "cdp_bronze_schemas_sps_ro" {
+  for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
+  schema     = "${databricks_catalog.cdp_catalog.name}.bronze_${each.value.project_name}"
+  principal  = each.value.sp_ro_app_id
+  privileges = var.cdp_ro_privileges_table_schemas 
 }
 
 resource "databricks_schema" "cdp_silver_schemas" {
-  for_each     = { for k, v in local.cdp_entra_groups_project_teams : v.display_name => v }
+  for_each     = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
   catalog_name = databricks_catalog.cdp_catalog.id
-  name         = "silver_${split("_${upper(var.env)}", split("_TEAM_", each.value.display_name)[1])[0]}"
-  comment      = "Schema for holding the refined data for the following data source/project team: ${each.value.display_name}"
+  name         = "silver_${each.value.project_name}"
+  comment      = "Schema for holding the silver data for the for the following data source/project team: ${each.value.project_name}"
   storage_root = databricks_external_location.cdp_catalog_silver_ext_loc.url
+}
+resource "databricks_grant" "cdp_silver_schemas_groups" {
+  for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
+  schema     = "${databricks_catalog.cdp_catalog.name}.silver_${each.value.project_name}"
+  principal  = each.value.group_display_name
+  privileges = var.env == "dev" ? var.cdp_rw_privileges_table_schemas : var.cdp_ro_privileges_table_schemas
+}
+resource "databricks_grant" "cdp_silver_schemas_sps_rw" {
+  for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
+  schema     = "${databricks_catalog.cdp_catalog.name}.silver_${each.value.project_name}"
+  principal  = each.value.sp_rw_app_id
+  privileges = var.cdp_rw_privileges_table_schemas 
+}
+resource "databricks_grant" "cdp_silver_schemas_sps_ro" {
+  for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
+  schema     = "${databricks_catalog.cdp_catalog.name}.silver_${each.value.project_name}"
+  principal  = each.value.sp_ro_app_id
+  privileges = var.cdp_ro_privileges_table_schemas 
 }
 
 resource "databricks_schema" "cdp_gold_datamart_schemas" {

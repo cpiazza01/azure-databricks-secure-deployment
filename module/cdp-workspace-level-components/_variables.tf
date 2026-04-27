@@ -22,20 +22,6 @@ variable "storage_account_acceses_to_grant" {
   ]
 }
 
-variable "cdp_bronze_and_silver_schemas" {
-  type = list(string)
-  default = [
-    "claims_source_example",
-    "enrollment_source_example",
-    "mdm_source_example",
-    "broker_source_example",
-    "provider_source_example",
-    "benefits_source_example",
-    "hr_source_example",
-    "sales_source_example"
-  ]
-}
-
 variable "cdp_gold_datamart_schemas" {
   type = set(string)
   default = [
@@ -57,19 +43,9 @@ variable "cdp_ro_privileges_table_schemas" {
   default = ["SELECT", "REFRESH"]
 }
 
-variable "cdp_ro_privileges_team_schemas" {
-  type    = list(string)
-  default = ["SELECT", "EXECUTE", "REFRESH"]
-}
-
 variable "cdp_rw_privileges_table_schemas" {
   type    = list(string)
   default = ["SELECT", "REFRESH", "CREATE_TABLE", "CREATE_MATERIALIZED_VIEW", "CREATE_VOLUME"]
-}
-
-variable "cdp_rw_privileges_team_schemas" {
-  type    = list(string)
-  default = ["SELECT", "REFRESH", "EXECUTE", "CREATE_TABLE", "CREATE_MATERIALIZED_VIEW", "CREATE_VOLUME", "CREATE_FUNCTION", "CREATE_MODEL"]
 }
 
 variable "cdp_privileges_functions_schema_rw" {
@@ -93,26 +69,5 @@ variable "cluster_policy_node_types_engineers" {
     "Standard_D4pds_v6",
     "Standard_E8_v3",
     "Standard_L8s_v2"
-  ]
-}
-
-variable "cluster_policy_node_types_analytics" {
-  type = list(string)
-  default = [
-    "Standard_D4pds_v6",
-    "Standard_D8pds_v6",
-    "Standard_D16pds_v6",
-    "Standard_D32pds_v6",
-    "Standard_E8_v3",
-    "Standard_E16_v3",
-    "Standard_E32_v3",
-    "Standard_E64_v3",
-    "Standard_L8s_v2",
-    "Standard_L16s_v2",
-    "Standard_L32s_v2",
-    "Standard_L64s_v2",
-    "Standard_NC4as_T4_v3",
-    "Standard_NC8as_T4_v3",
-    "Standard_NC16as_T4_v3"
   ]
 }
