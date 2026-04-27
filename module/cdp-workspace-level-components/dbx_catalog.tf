@@ -28,18 +28,21 @@ resource "databricks_grant" "cdp_bronze_schemas_groups" {
   schema     = "${databricks_catalog.cdp_catalog.name}.bronze_${each.value.project_name}"
   principal  = each.value.group_display_name
   privileges = var.env == "dev" ? var.cdp_rw_privileges_table_schemas : var.cdp_ro_privileges_table_schemas
+  depends_on = [databricks_schema.cdp_bronze_schemas]
 }
 resource "databricks_grant" "cdp_bronze_schemas_sps_rw" {
   for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
   schema     = "${databricks_catalog.cdp_catalog.name}.bronze_${each.value.project_name}"
   principal  = each.value.sp_rw_app_id
-  privileges = var.cdp_rw_privileges_table_schemas 
+  privileges = var.cdp_rw_privileges_table_schemas
+  depends_on = [databricks_schema.cdp_bronze_schemas]
 }
 resource "databricks_grant" "cdp_bronze_schemas_sps_ro" {
   for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
   schema     = "${databricks_catalog.cdp_catalog.name}.bronze_${each.value.project_name}"
   principal  = each.value.sp_ro_app_id
-  privileges = var.cdp_ro_privileges_table_schemas 
+  privileges = var.cdp_ro_privileges_table_schemas
+  depends_on = [databricks_schema.cdp_bronze_schemas]
 }
 
 resource "databricks_schema" "cdp_silver_schemas" {
@@ -54,18 +57,21 @@ resource "databricks_grant" "cdp_silver_schemas_groups" {
   schema     = "${databricks_catalog.cdp_catalog.name}.silver_${each.value.project_name}"
   principal  = each.value.group_display_name
   privileges = var.env == "dev" ? var.cdp_rw_privileges_table_schemas : var.cdp_ro_privileges_table_schemas
+  depends_on = [databricks_schema.cdp_silver_schemas]
 }
 resource "databricks_grant" "cdp_silver_schemas_sps_rw" {
   for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
   schema     = "${databricks_catalog.cdp_catalog.name}.silver_${each.value.project_name}"
   principal  = each.value.sp_rw_app_id
-  privileges = var.cdp_rw_privileges_table_schemas 
+  privileges = var.cdp_rw_privileges_table_schemas
+  depends_on = [databricks_schema.cdp_silver_schemas]
 }
 resource "databricks_grant" "cdp_silver_schemas_sps_ro" {
   for_each   = { for k, v in local.schema_grant_project_team_mappings : v.project_name => v }
   schema     = "${databricks_catalog.cdp_catalog.name}.silver_${each.value.project_name}"
   principal  = each.value.sp_ro_app_id
-  privileges = var.cdp_ro_privileges_table_schemas 
+  privileges = var.cdp_ro_privileges_table_schemas
+  depends_on = [databricks_schema.cdp_silver_schemas]
 }
 
 resource "databricks_schema" "cdp_gold_datamart_schemas" {
