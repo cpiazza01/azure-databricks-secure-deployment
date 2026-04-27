@@ -20,7 +20,7 @@ resource "databricks_schema" "cdp_bronze_schemas" {
   for_each     = { for k, v in local.cdp_entra_groups_project_teams : v.display_name => v }
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "bronze_${split("_${upper(var.env)}", split("_TEAM_", each.value.display_name)[1])[0]}"
-  comment      = "Schema for holding the raw data for the project team '${each.value.display_name}'."
+  comment      = "Schema for holding the raw data for the for the following data source/project team: ${each.value.display_name}"
   storage_root = databricks_external_location.cdp_catalog_bronze_ext_loc.url
 }
 
@@ -28,6 +28,21 @@ resource "databricks_schema" "cdp_silver_schemas" {
   for_each     = { for k, v in local.cdp_entra_groups_project_teams : v.display_name => v }
   catalog_name = databricks_catalog.cdp_catalog.id
   name         = "silver_${split("_${upper(var.env)}", split("_TEAM_", each.value.display_name)[1])[0]}"
-  comment      = "Schema for holding the refined data for the project team '${each.value.display_name}'."
+  comment      = "Schema for holding the refined data for the following data source/project team: ${each.value.display_name}"
   storage_root = databricks_external_location.cdp_catalog_silver_ext_loc.url
+}
+
+resource "databricks_schema" "cdp_gold_datamart_schemas" {
+  for_each     = [ for name in var.cdp_gold_datamart_schemas : name ]
+  catalog_name = databricks_catalog.cdp_catalog.id
+  name         = "gold_datamart_${each.value}"
+  comment      = "Schema for holding the curated datamart (star/dim tables) data for the ${each.value} domain"
+  storage_root = databricks_external_location.cdp_catalog_gold_ext_loc.url
+}
+
+resource "databricks_schema" "cdp_gold_reporting_schema" {
+  catalog_name = databricks_catalog.cdp_catalog.id
+  name         = "gold_reporting"
+  comment      = "Schema for holding semantic/reporting data products"
+  storage_root = databricks_external_location.cdp_catalog_gold_ext_loc.url
 }

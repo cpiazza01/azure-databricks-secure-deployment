@@ -21,4 +21,21 @@ locals {
 
   workspace_id  = local.workspace.workspace_id
   workspace_url = local.workspace.workspace_url
+
+  schema_grant_project_team_mappings_init = flatten([
+    for group in local.cdp_entra_groups_project_teams : [
+      for sp_rw in local.cdp_project_teams_rw_sps: 
+        {
+          project_name       = split("_${upper(var.env)}", split("_TEAM_", group.display_name)[1])[0]
+          group_display_name = group.display_name
+          sp_rw_display_name = sp_rw.display_name
+          sp_rw_app_id       = sp_rw.application_id
+        }
+      if split("_${upper(var.env)}", split("_TEAM_", group.display_name)[1])[0] == split("_${upper(var.env)}", split("_TEAM_", sp_rw.display_name)[1])[0]
+    ]
+  ])
+}
+
+output "schema_grant_project_team_mappings_init" {
+  value = local.schema_grant_project_team_mappings_init
 }

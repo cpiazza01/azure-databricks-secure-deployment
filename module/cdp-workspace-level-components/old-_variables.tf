@@ -36,8 +36,8 @@ variable "cdp_bronze_and_silver_schemas" {
   ]
 }
 
-variable "cdp_gold_datamart_schemas" {
-  type = set(string)
+variable "cdp_gold_schemas" {
+  type = list(string)
   default = [
     "claim",
     "provider",
