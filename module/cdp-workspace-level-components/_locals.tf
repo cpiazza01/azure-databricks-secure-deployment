@@ -45,7 +45,7 @@ locals {
           sp_rw_app_id       = config.sp_rw_app_id
           sp_rw_id           = config.sp_rw_id
           sp_ro_display_name = sp_ro.display_name
-          sp_ro_app_id       = sp_ro.app_id
+          sp_ro_app_id       = sp_ro.application_id
           sp_ro_id           = sp_ro.id
         }
       if config.project_name == split("_${upper(var.env)}", split("_TEAM_", sp_ro.display_name)[1])[0]
