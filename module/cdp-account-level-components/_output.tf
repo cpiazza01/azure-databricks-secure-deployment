@@ -14,7 +14,7 @@ output "cdp_catalog_users_ro_group" {
   value = databricks_group.catalog_users_ro
 }
 output "cdp_entra_group_workspace_admin" {
-  value = databricks_group.entra_group_workspace_admin_team
+  value = [for group in databricks_group.entra_group_workspace_admin_team: group][0]
 }
 output "cdp_entra_groups_project_teams" {
   value = databricks_group.entra_groups_project_teams
