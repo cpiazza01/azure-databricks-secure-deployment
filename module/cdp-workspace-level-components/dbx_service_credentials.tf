@@ -14,7 +14,7 @@ resource "azurerm_databricks_access_connector" "cdp_service_credential_access_co
 }
 
 resource "azurerm_role_assignment" "cdp_service_credential_access_connector_role_assignments" {
-  for_each             = { for k, v in local.access_connector_service_credential_config_mappings : v.project_name => v }
+  for_each             = { for k, v in local.access_connector_service_credential_config_mappings : k => v }
   scope                = each.value.resource_id
   role_definition_name = each.value.role_name
   principal_id         = each.value.access_connector_principal_id
