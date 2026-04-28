@@ -85,6 +85,19 @@ locals {
       }
     ]
   ])
+  access_connector_service_credential_config_mappings = flatten([
+    for config in local.service_credential_configs_flattened : [
+      for connector in azurerm_databricks_access_connector.cdp_service_credential_access_connectors :
+      {
+        project_name                  = config.project_name
+        role_name                     = config.role_name
+        resource_id                   = config.resource_id
+        access_connector_id           = connector.id
+        access_connector_principal_id = connector.identity[0].principal_id
+      }
+      if connector.tags.project_name == config.project_name
+    ]
+  ])
   service_credential_to_group_mappings_project_teams = flatten([
     for config in local.schema_grant_project_team_mappings : [
       for cred in databricks_credential.cdp_service_credentials :
