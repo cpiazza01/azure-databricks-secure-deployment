@@ -19,6 +19,15 @@ on:
           - plan
           - apply
           - destroy
+      force_unlock_state:
+        description: "State File Locked?"
+        type: boolean
+        required: true 
+        default: false
+      lock_id:
+        description: "Lock ID to unlock state file"
+        type: string
+        required: false 
 
 permissions:
   id-token: write
@@ -63,6 +72,11 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init -backend-config=env-config/${{ vars.ENV }}-backend.conf
+      
+      - name: Terraform Unlock State File
+        if: ${{ inputs.force_unlock_state }}
+        id: unlock-state
+        run: terraform force-unlock --force ${{ inputs.lock_id }}
 
       - name: Terraform ${{ inputs.command }}
         run: terraform ${{ inputs.command }} -auto-approve -var-file="env-config/${{ vars.ENV }}.tfvars"
