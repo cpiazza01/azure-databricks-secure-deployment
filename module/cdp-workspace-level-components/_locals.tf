@@ -136,6 +136,6 @@ locals {
 output "access_connector_service_credential_config_mappings" {
   value = local.access_connector_service_credential_config_mappings
 }
-output "service_credential_to_group_mappings" {
-  value = local.service_credential_to_group_mappings
+output "service_credential_to_group_mappings_project_teams" {
+  value = local.service_credential_to_group_mappings_project_teams
 }
