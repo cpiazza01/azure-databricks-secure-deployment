@@ -7,10 +7,6 @@ variable "resource_group_name" {
   type = string
 }
 
-variable "subscription_id" {
-
-}
-
 variable "location" {
   type    = string
   default = "East US"
