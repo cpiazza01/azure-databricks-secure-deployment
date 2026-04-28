@@ -75,23 +75,3 @@ variable "cluster_policy_node_types_engineers" {
     "Standard_L8s_v2"
   ]
 }
-
-variable "service_credential_configs" {
-  default = [
-    {
-      project_name = "EXAMPLE_CLAIMS_ENGINE"
-      role_name    = "Storage Blob Data Contributor"
-      resource_id  = data.azurerm_storage_account.cpexamplestorageaccount.id
-    },
-    {
-      project_name = "EXAMPLE_CLAIMS_ENGINE"
-      role_name    = "Storage Account Contributor"
-      resource_id  = data.azurerm_storage_account.cpexamplestorageaccount.id
-    },
-    {
-      project_name = "EXAMPLE_PROVIDER_SOURCE"
-      role_name    = "Storage Blob Data Contributor"
-      resource_id  = data.azurerm_storage_account.cpexamplestorageaccount.id
-    }
-  ]
-}

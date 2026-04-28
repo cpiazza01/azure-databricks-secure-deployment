@@ -1,11 +1,15 @@
 resource "azurerm_databricks_access_connector" "cdp_service_credential_access_connectors" {
-  for_each            = { for k, v in var.service_credential_configs : v.project_name => v }
+  for_each            = { for k, v in local.service_credential_configs : v.project_name => v }
   name                = "cdp_access_connector_for_service_credential_${each.value.project_name}_${lower(var.env)}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
   identity {
     type = "SystemAssigned"
+  }
+
+  tags = {
+    project_name = each.value.project_name
   }
 }
 
@@ -17,18 +21,18 @@ resource "azurerm_role_assignment" "cdp_service_credential_access_connector_role
 }
 
 resource "databricks_credential" "cdp_service_credentials" {
-  for_each       = { for k, v in local.access_connector_service_credential_config_mappings : v.project_name => v }
-  name           = "cdp_service_credential_${each.value.project_name}_${lower(var.env)}"
+  for_each       = azurerm_databricks_access_connector.cdp_service_credential_access_connectors
+  name           = "cdp_service_credential_${each.value.tags.project_name}_${lower(var.env)}"
   purpose        = "SERVICE"
   isolation_mode = "ISOLATION_MODE_ISOLATED"
 
   azure_managed_identity {
-    access_connector_id = each.value.access_connector_id
+    access_connector_id = each.value.id
   }
 }
 
-resource "databricks_grants" "cdp_service_credentials_grants_groups" {
-  for_each   = { for k, v in local.service_credential_to_group_mappings : v.project_name => v if var.env == "dev" }
+resource "databricks_grants" "cdp_service_credentials_grants_project_team_groups" {
+  for_each   = { for k, v in local.service_credential_to_group_mappings_project_teams : v.project_name => v if var.env == "dev" }
   credential = each.value.service_credential_id
 
   grant {
@@ -36,8 +40,8 @@ resource "databricks_grants" "cdp_service_credentials_grants_groups" {
     privileges = ["ACCESS"]
   }
 }
-resource "databricks_grants" "cdp_service_credentials_grants_rw_sps" {
-  for_each   = { for k, v in local.service_credential_to_group_mappings : v.project_name => v if var.env == "dev" }
+resource "databricks_grants" "cdp_service_credentials_grants_project_teams_rw_sps" {
+  for_each   = { for k, v in local.service_credential_to_group_mappings_project_teams : v.project_name => v if var.env == "dev" }
   credential = each.value.service_credential_id
 
   grant {
@@ -45,8 +49,8 @@ resource "databricks_grants" "cdp_service_credentials_grants_rw_sps" {
     privileges = ["ACCESS"]
   }
 }
-resource "databricks_grants" "cdp_service_credentials_grants_ro_sps" {
-  for_each   = { for k, v in local.service_credential_to_group_mappings : v.project_name => v if var.env == "dev" }
+resource "databricks_grants" "cdp_service_credentials_grants_project_teams_ro_sps" {
+  for_each   = { for k, v in local.service_credential_to_group_mappings_project_teams : v.project_name => v if var.env == "dev" }
   credential = each.value.service_credential_id
 
   grant {
