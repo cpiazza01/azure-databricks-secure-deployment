@@ -1,6 +1,6 @@
 resource "azurerm_databricks_access_connector" "cdp_service_credential_access_connectors" {
   for_each            = { for k, v in local.service_credential_configs : v.project_name => v }
-  name                = "cdp_access_connector_for_service_credential_${each.value.project_name}_${lower(var.env)}"
+  name                = "cdp_serv_cred_ac_${lower(each.value.project_name)}_${lower(var.env)}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
