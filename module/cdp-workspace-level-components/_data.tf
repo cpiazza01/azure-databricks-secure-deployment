@@ -33,3 +33,7 @@ data "databricks_service_principal" "account_admin_sp" {
   display_name = "DATABRICKS_ACCOUNT_ADMIN_SP"
 }
 
+data "azurerm_storage_account" "cpexamplestorageaccount" {
+  name                = "cpexamplestorageaccount"
+  resource_group_name = var.resource_group_name
+}
